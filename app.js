@@ -318,8 +318,17 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
-      case 'right now date':
+        case 'right now date':
         sendTextMessage(senderID, Date.now());
+        break;
+
+        case 'right now rate':
+        $.ajax({
+          url: 'https://api.coindesk.com/v1/bpi/currentprice.json',
+          success: function(data) {
+            console.log(data);
+          }
+        })
         break;
 
       default:
