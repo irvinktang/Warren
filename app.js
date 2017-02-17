@@ -374,6 +374,7 @@ function receivedMessage(event) {
 
         case 'preferences':
         // sendTextMessage(senderID, "What is your preferred exchange?");
+        console.log('here in preferences')
         preferencesReply(senderID);
         break;
 
@@ -439,21 +440,6 @@ function receivedMessage(event) {
     }
   }
 }
-    //   google_speech.ASR({
-    //     developer_key: 'AIzaSyC_WVvBbOUxcn76AgjFfjGJdeyIw7RsqOs',
-    //     file: 'https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3',
-    //   }, function(err, httpResponse, xml){
-    //     if(err){
-    //       console.log('ERROR IN ASR')
-    //       console.log(err);
-    //     }else{
-    //       console.log('NO ERROR IN ASR')
-    //       console.log(httpResponse.statusCode, xml)
-    //     }
-    //   }
-    // );
-
-
 ////////////////////////// ADDING MENUS
 function addPersistentMenu(){
   request({
@@ -523,11 +509,9 @@ function receivedPostback(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfPostback = event.timestamp;
-
   // The 'payload' param is a developer-defined field which is set in a postback
   // button for Structured Messages.
   var payload = event.postback.payload;
-
   if (payload === "Buy_Price"){
     client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
@@ -563,43 +547,12 @@ function receivedPostback(event) {
       })
     });
   }
-
   console.log("Received postback for user %d and page %d with payload '%s' " +
   "at %d", senderID, recipientID, payload, timeOfPostback);
-
+}
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
   // sendTextMessage(senderID, "Postback called");
-}
-// // ANOTHER CUSTOM FUNCTION THAT REPLICATES RECEIVED Postback
-// /// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
-//
-// function gettingFrisky(event) {
-//
-//   if(event.originalText.text) {
-//     var incorrectText = event.originalText.text;
-//     var correctText = event.correctText.correct;
-//     if(event.message.attachment.payload. === "yes") {
-//       var msg = {
-//         recipient: {
-//           id: recipientID
-//         },
-//         message: {
-//           text: correctText,
-//           metadata: "DEVELOPER_DEFINED_METADATA"
-//         }
-//       }
-//       receivedMessage(msg)
-//     } else if (payload === "no") {
-//       sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
-//     }
-//   }
-// /// CUSTOM HAHAHA
-// }
-
-
-
-
 
 /*
 * Message Read Event
@@ -619,7 +572,6 @@ function receivedMessageRead(event) {
   console.log("Received message read event for watermark %d and sequence " +
   "number %d", watermark, sequenceNumber);
 }
-
 /*
 * Account Link Event
 *
@@ -643,11 +595,6 @@ function receivedAccountLink(event) {
 * Send an image using the Send API.
 *
 */
-
-// RANDOM TEXT HERE TO MAKE A CHANGE
-// more changes lmao
-
-
 // THIS IS TO CREATE BITCOIN - BUTTONS
 function sendBitcoin(recipientId) {
   var messageData = {
@@ -844,46 +791,6 @@ function sendButtonMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-///// CUSTOM
-// function sendCorrectMsg(recipientId, msg, incorrectText) {
-//   var messageData = {
-//     recipient: {
-//       id: recipientId
-//     },
-//     sender: {
-//       id: 'dummy'
-//     },
-//     originalText: {
-//       text: incorrectText
-//     },
-//     correctText: {
-//       correct: msg
-//     },
-//     timestamp: 'nothing',
-//     message: {
-//       attachment: {
-//         type: "template",
-//         payload: {
-//           template_type: "button",
-//           text: "Did you mean... " + msg + "?",
-//           buttons:[{
-//             type: "postback",
-//             title: "Yes",
-//             payload: "yes"
-//           }, {
-//             type: "postback",
-//             title: "No",
-//             payload: "no"
-//           }]
-//         }
-//       }
-//     }
-//   }
-//   gettingFrisky(messageData);
-// }
-// //// CUSTOM
-
-
 /*
 * Send a Structured Message (Generic Message type) using the Send API.
 *
@@ -931,7 +838,6 @@ function sendGenericMessage(recipientId) {
       }
     }
   };
-
   callSendAPI(messageData);
 }
 
