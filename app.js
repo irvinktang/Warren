@@ -310,8 +310,9 @@ function receivedMessage(event) {
         sendAccountLinking(senderID);
         break;
 
-      case 'sup man':
-        sendTextMessage(senderID, 'sup man')
+      case 'something':
+        sendTextMessage(senderID, 'something else');
+        break;
 
       default:
         sendTextMessage(senderID, messageText);
@@ -531,8 +532,7 @@ function sendTextMessage(recipientId, messageText) {
       id: recipientId
     },
     message: {
-      // text: messageText,
-      text: 'irvin',
+      text: messageText,
       metadata: "DEVELOPER_DEFINED_METADATA"
     }
   };
