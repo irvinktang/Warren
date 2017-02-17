@@ -298,7 +298,6 @@ function receivedMessage(event) {
         User.findOneAndUpdate({userId: senderID}, {preferredExchange: arr}, function(err, foundUser) {
           console.log(foundUser);
         })
-
         return sendTextMessage(senderID, 'Saved.');
       } else if(quickReplyPayload === 'otherExchange') {
         return sendTextMessage(senderID, "Hmmmm idk what to do then b");
@@ -315,16 +314,19 @@ function receivedMessage(event) {
         User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
           console.log(foundUser);
         })
+        return sendTextMessage(senderID, 'Saved.');
       } else if(quickReplyPayload === 'noon'){
         var preferredTime = 'noon';
         User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
           console.log(foundUser);
         })
+        return sendTextMessage(senderID, 'Saved.');
       } else if(quickReplyPayload === 'afternoon'){
         var preferredTime = 'afternoon';
         User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
           console.log(foundUser);
         })
+        return sendTextMessage(senderID, 'Saved.');
       }
       // sendTextMessage(senderID, "Quick reply tapped");
       return;
