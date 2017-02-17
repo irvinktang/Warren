@@ -109,7 +109,7 @@ app.get('/postaudio', function(req, res){
         'uri':'http://bshre.co/spmz'
       }
     }
-  },  function (error, response, body) {
+  }, function (error, response, body) {
     res.json({
       error: error,
       response: response,
@@ -362,7 +362,7 @@ function receivedMessage(event) {
       request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           var msg = JSON.parse(body);
-          var newMsg = "High: " + msg.high + "\n" + "Low: " + msg.low + "\n" + "Open: " + msg.open + "\n" + "source: bitstamp"
+          var newMsg = "High: " + msg.high + "\n" + "Low: " + msg.low + "\n" + "Open: " + msg.open + "\n \n" + "Source: Bitstamp"
           sendTextMessage(senderID, newMsg);
         }
       })
@@ -381,6 +381,10 @@ function receivedMessage(event) {
       case 'add menu':
       addPersistentMenu();
       break;
+
+      case 'generic':
+        sendGenericMessage(senderID);
+        break;
 
       case 'haha':
       var getRandomJoke = oneLinerJoke.getRandomJoke();
@@ -424,6 +428,10 @@ function receivedMessage(event) {
       sendBitcoin(senderID);
       break;
 
+      case 'bit buttons':
+        sendButtonMessage(senderID);
+        break;
+
       case 'briefing':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
         var spot = price.data.amount;
@@ -434,7 +442,7 @@ function receivedMessage(event) {
             client.getTime(function(err, time) {
               var time = time.data.iso;
               var msg = 'Current pricing information as of ' + time + ':' + '\n' +
-              'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
+              'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n Source: Coinbase';
               sendTextMessage(senderID, msg);
             })
           })
@@ -454,10 +462,6 @@ function receivedMessage(event) {
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
-
-
-
-
 ////////////////////////// ADDING MENUS
 function addPersistentMenu(){
   request({
@@ -667,8 +671,6 @@ function sendImageMessage(recipientId) {
 *
 */
 
-
-
 function sendGifMessage(recipientId) {
   var messageData = {
     recipient: {
@@ -683,7 +685,6 @@ function sendGifMessage(recipientId) {
       }
     }
   };
-
   callSendAPI(messageData);
 }
 
@@ -727,7 +728,6 @@ function sendVideoMessage(recipientId) {
       }
     }
   };
-
   callSendAPI(messageData);
 }
 
@@ -777,7 +777,6 @@ function sendTextMessage(recipientId, messageText) {
 *
 */
 function sendButtonMessage(recipientId) {
-
   var messageData = {
     recipient: {
       id: recipientId
@@ -805,7 +804,6 @@ function sendButtonMessage(recipientId) {
       }
     }
   };
-
   callSendAPI(messageData);
 }
 
