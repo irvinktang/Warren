@@ -17,8 +17,10 @@ const
   express = require('express'),
   https = require('https'),
   request = require('request'),
-  autocorrect = require('autocorrect')(),
-  changeCase = require('change-case')
+  changeCase = require('change-case'),
+
+  words = ['onboard'],
+  autocorrect = require('autocorrect')()
 
 var Client = require('coinbase').Client;
 var client = new Client({
@@ -265,7 +267,7 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
-    switch (messageText) {
+    switch (changeCase.lowerCase(messageText)) {
 
       case 'onboard':
         var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view '
@@ -590,7 +592,19 @@ function sendTextMessage(recipientId, messageText) {
  * Send a button message using the Send API.
  *
  */
-function sendButtonMessage(recipientId) {
+function sendButtonMessage(recipientId, SOMETHING) {
+
+  if(SOMETHING === 'blah') {
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+
+      }
+    }
+  }
+
   var messageData = {
     recipient: {
       id: recipientId
