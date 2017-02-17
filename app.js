@@ -101,6 +101,14 @@ app.get('/webhook', function(req, res) {
   }
 });
 
+app.get('/postaudio', function(req, res){
+  request('https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body) //
+    }
+  })
+})
+
 /*
  * All callbacks for Messenger are POST-ed. They will be sent to the same
  * webhook. Be sure to subscribe your app to your page to receive callbacks
@@ -314,7 +322,7 @@ function receivedMessage(event) {
           console.log(foundUser);
         })
         return sendTextMessage(senderID, 'Saved.');
-      }
+
       // else if(quickReplyPayload === 'otherExchange') {
       //   return sendTextMessage(senderID, "Hmmmm idk what to do then b");
 
