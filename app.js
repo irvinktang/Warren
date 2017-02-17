@@ -253,12 +253,6 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-
-
-
-
-
-
   // var myUser = {};
   // // initial save of user information if he doesnt exist already
   // User.findOne({userId: senderID}, function(err, foundUser) {
@@ -1314,7 +1308,7 @@ function setGreetingText() {
     },
     "call_to_actions":[
       {
-        "payload":"USER_DEFINED_PAYLOAD"
+        "payload":"gettingStarted"
       }]
     }
     createGreetingApi(greetingData);
@@ -1332,6 +1326,7 @@ function createGreetingApi(data) {
       console.log("Greeting set successfully!");
     } else {
       console.error("Failed calling Thread Reference API", response.statusCode, response.statusMessage, body.error);
+      sendTextMessage(data.sender.id, "Hello")
     }
   });
 }
