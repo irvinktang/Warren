@@ -29,6 +29,10 @@ var client = new Client({
   'apiSecret': 'API SECRET'
 });
 
+var dateFormat = require('dateformat');
+
+var weather = require('weather-js');
+
 var google_speech = require('google-speech');
 var User = require('./models/user').User;
 var Nuance = require('nuance');
@@ -412,7 +416,7 @@ function receivedMessage(event) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
             var pick = (msg.bid > coinPrice.data.amount ? "Coinbase" : "Bitstamp")
-            var newMsg="We would recommend " + pick + ".\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice.data.amount;
+            var newMsg="We would recommend " + pick + ".\n\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice.data.amount;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -425,7 +429,7 @@ function receivedMessage(event) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
             var pick = (msg.ask > coinPrice.data.amount ? "Bitstamp" : "Coinbase")
-            var newMsg="We would recommend " + pick + ".\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice.data.amount;
+            var newMsg="We would recommend " + pick + ".\n\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice.data.amount;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -459,6 +463,13 @@ function receivedMessage(event) {
         break;
 
       case 'briefing':
+      weather.find({search: 'San Francisco, CA', degreeType: 'F'}, function(err, realWeather) {
+        var myWeather = JSON.stringify(realWeather);
+        var currentTemp = myWeather.current.temperature;
+      });
+      var now = new Date();
+      var currentTime = dateFormat(now, "h:MM:ss TT");
+      var currentDate = dateFormat(now, "dddd, mmmm dS, yyyy");
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
         var spot = price.data.amount;
         client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
@@ -467,7 +478,7 @@ function receivedMessage(event) {
             var buy = price.data.amount;
             client.getTime(function(err, time) {
               var time = time.data.iso;
-              var msg = 'Current pricing information as of ' + time + ':' + '\n' +
+              var msg = 'Weather: ' + currentTemp + '\nDate: ' + currentDate + '\nTime: ' + currentTime + '\nCurrent pricing information as of ' + time + ':' + '\n' +
               'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n Source: Coinbase';
               sendTextMessage(senderID, msg);
             })

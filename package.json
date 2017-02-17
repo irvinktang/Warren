@@ -21,13 +21,15 @@
     "change-case": "^3.0.1",
     "coinbase": "^2.0.6",
     "config": "^1.20.4",
+    "dateformat": "^2.0.0",
     "ejs": "^2.4.2",
     "express": "^4.13.4",
     "google-speech": "0.0.5",
     "mongoose": "^4.8.3",
     "nuance": "^1.1.1",
     "one-liner-joke": "^1.0.0",
-    "request": "^2.72.0"
+    "request": "^2.72.0",
+    "weather-js": "^1.0.2"
   },
   "engines": {
     "node": "~4.1.2"
