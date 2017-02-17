@@ -310,6 +310,9 @@ function receivedMessage(event) {
         sendAccountLinking(senderID);
         break;
 
+      case 'sup man':
+        sendTextMessage(senderID, 'sup man')
+
       default:
         sendTextMessage(senderID, messageText);
     }
