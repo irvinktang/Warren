@@ -419,31 +419,6 @@ function receivedPostback(event) {
   // button for Structured Messages.
   var payload = event.postback.payload;
 
-  /// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
-
-
-
-    if(event.originalText.text) {
-      var incorrectText = event.originalText.text;
-      var correctText = event.correctText.correct;
-      if(payload === "yes") {
-        var msg = {
-          recipient: {
-            id: recipientID
-          },
-          message: {
-            text: correctText,
-            metadata: "DEVELOPER_DEFINED_METADATA"
-          }
-        }
-        receivedMessage(msg)
-      } else if (payload === "no") {
-        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
-      }
-    }
-  /// CUSTOM HAHAHA
-
-
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
 
@@ -451,6 +426,38 @@ function receivedPostback(event) {
   // let them know it was successful
   sendTextMessage(senderID, "Postback called");
 }
+
+
+
+// ANOTHER CUSTOM FUNCTION THAT REPLICATES RECEIVED Postback
+/// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
+
+function gettingFrisky(event) {
+
+  if(event.originalText.text) {
+    var incorrectText = event.originalText.text;
+    var correctText = event.correctText.correct;
+    if(payload === "yes") {
+      var msg = {
+        recipient: {
+          id: recipientID
+        },
+        message: {
+          text: correctText,
+          metadata: "DEVELOPER_DEFINED_METADATA"
+        }
+      }
+      receivedMessage(msg)
+    } else if (payload === "no") {
+      sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
+    }
+  }
+/// CUSTOM HAHAHA
+}
+
+
+
+
 
 /*
  * Message Read Event
@@ -677,12 +684,13 @@ function sendCorrectMsg(recipientId, msg, incorrectText) {
     correctText: {
       correct: msg
     },
+    timestamp: 'nothing',
     message: {
       attachment: {
         type: "template",
         payload: {
           template_type: "button",
-          text: "Some test text",
+          text: "Did you mean... " + msg + "?",
           buttons:[{
             type: "postback",
             title: "Yes",
@@ -696,7 +704,7 @@ function sendCorrectMsg(recipientId, msg, incorrectText) {
       }
     }
   }
-  receivedPostback(messageData);
+  gettingFrisky(messageData);
 }
 //// CUSTOM
 
