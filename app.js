@@ -275,11 +275,6 @@ function receivedMessage(event) {
         sendTextMessage(senderID, msg);
         break;
 
-      case 'nboard':
-          var msg = "Did you mean... " + autocorrect('nboard') + "?"
-          sendTextMessage(senderID, msg);
-          break;
-
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -356,12 +351,17 @@ function receivedMessage(event) {
               var time = time.data.iso;
               var msg = 'Current pricing information as of ' + time + ':' + '\n' +
                 'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
-              sendTextMessage(senderID, msg);
+              sendCorrectMsg(senderID, msg);
             })
           })
         })
       });
       break;
+
+      case messageText:
+          var msg = "Did you mean... " + autocorrect(messageText) + "?"
+          sendCorrectMessage(senderID, msg, messageText);
+          break;
 
         default:
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'.");
@@ -413,6 +413,32 @@ function receivedPostback(event) {
   // The 'payload' param is a developer-defined field which is set in a postback
   // button for Structured Messages.
   var payload = event.postback.payload;
+
+  /// CUSTOM
+    if(event.originalText.text) {
+      var incorrectText = event.originalText.text;
+      var correctText = event.correctText.correct;
+      if(payload === "yes") {
+        var msg = {
+          recipient: {
+            id: recipientID
+          },
+          message: {
+            text: correctText,
+            metadata: "DEVELOPER_DEFINED_METADATA"
+          }
+        }
+        receivedMessage(msg)
+      } else if (payload === "no") {
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
+        break;
+      }
+    }
+
+
+
+  /// CUSTOM
+
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
@@ -598,18 +624,7 @@ function sendTextMessage(recipientId, messageText) {
  * Send a button message using the Send API.
  *
  */
-function sendButtonMessage(recipientId, SOMETHING) {
-
-  if(SOMETHING === 'blah') {
-    var messageData = {
-      recipient: {
-        id: recipientId
-      },
-      message: {
-
-      }
-    }
-  }
+function sendButtonMessage(recipientId) {
 
   var messageData = {
     recipient: {
@@ -641,6 +656,43 @@ function sendButtonMessage(recipientId, SOMETHING) {
 
   callSendAPI(messageData);
 }
+
+
+///// CUSTOM
+function sendCorrectMsg(recipientId, msg, incorrectText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    originalText: {
+      text: incorrectText
+    },
+    correctText: {
+      correct: msg
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Some test text",
+          buttons:[{
+            type: "postback",
+            title: "Yes",
+            payload: "yes"
+          }, {
+            type: "postback",
+            title: "No",
+            payload: "no"
+          }]
+        }
+      }
+    }
+  }
+  callSendAPI(messageData);
+}
+//// CUSTOM
+
 
 /*
  * Send a Structured Message (Generic Message type) using the Send API.
