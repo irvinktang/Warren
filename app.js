@@ -257,12 +257,12 @@ function receivedMessage(event) {
   if (isEcho) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s",
-      messageId, appId, metadata);
+    messageId, appId, metadata);
     return;
   } else if (quickReply) {
     var quickReplyPayload = quickReply.payload;
     console.log("Quick reply for message %s with payload %s",
-      messageId, quickReplyPayload);
+    messageId, quickReplyPayload);
 
     sendTextMessage(senderID, "Quick reply tapped");
     return;
@@ -275,12 +275,7 @@ function receivedMessage(event) {
     // the text we received.
     switch (changeCase.lowerCase(messageText)) {
 
-      case 'onboard':
-        var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view '
-        sendTextMessage(senderID, msg);
-        break;
-
-      case 'image':
+        case 'image':
         sendImageMessage(senderID);
         break;
 
@@ -290,11 +285,6 @@ function receivedMessage(event) {
 
       case 'audio':
         sendAudioMessage(senderID);
-        break;
-
-      case 'haha':
-        var getRandomJoke = oneLinerJoke.getRandomJoke();
-        sendTextMessage(senderID, getRandomJoke.body);
         break;
 
       case 'video':
@@ -337,6 +327,11 @@ function receivedMessage(event) {
         sendAccountLinking(senderID);
         break;
 
+        case 'haha':
+          var getRandomJoke = oneLinerJoke.getRandomJoke();
+          sendTextMessage(senderID, getRandomJoke.body);
+          break;
+
       case 'bitcoin':
         sendTextMessage(senderID, 'something else');
         break;
@@ -344,6 +339,33 @@ function receivedMessage(event) {
       case 'bit buttons':
         sendButtonMessage(senderID);
         break;
+
+        case 'onboard':
+          var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
+          sendTextMessage(senderID, msg);
+          break;
+
+        case 'buy price':
+          client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+            sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
+          });
+          break;
+
+        case 'price':
+          client.getSpotPrice({'currency': 'usd'}, function(err, price) {
+            sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
+          });
+          break;
+
+        case 'sell price':
+          client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+            sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
+          });
+          break;
+
+        case 'bitcoin':
+          sendBitcoin(senderID);
+          break;
 
       case 'briefing':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
@@ -368,8 +390,8 @@ function receivedMessage(event) {
       //     sendCorrectMsg(senderID, msg, messageText);
       //     break;
 
-        default:
-        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. You may have meant" + autocorrect(messageText) + ".");
+      default:
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. You may have meant " + " '" autocorrect(messageText) + "'" + ".");
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -418,6 +440,22 @@ function receivedPostback(event) {
   // The 'payload' param is a developer-defined field which is set in a postback
   // button for Structured Messages.
   var payload = event.postback.payload;
+
+  if (payload === "Buy_Price"){
+    return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
+    });
+  }
+  else if (payload === "Sell_Price"){
+    return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+      return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
+    });
+  }
+  else if (payload === "Price"){
+    return client.getSpotPrice({'currency': 'usd'}, function(err, price) {
+      return sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
+    });
+  }
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
@@ -504,6 +542,39 @@ function receivedAccountLink(event) {
 
  // RANDOM TEXT HERE TO MAKE A CHANGE
  // more changes lmao
+
+
+// THIS IS TO CREATE BITCOIN - BUTTONS
+function sendBitcoin(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Bitcoin Options",
+          buttons:[{
+            type: "postback",
+            title: "Buy Price",
+            payload: "Buy_Price"
+          }, {
+            type: "postback",
+            title: "Sell Price",
+            payload: "Sell_Price"
+          }, {
+            type: "postback",
+            title: "Price",
+            payload: "Price"
+          }]
+        }
+      }
+    }
+  };
+  callSendAPI(messageData);
+}
 
 
 function sendImageMessage(recipientId) {
