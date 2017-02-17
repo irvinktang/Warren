@@ -539,8 +539,9 @@ function receivedMessage(event) {
           console.log(httpResponse.statusCode, xml)
         }
       }
-    });
+    );
   }
+}
 }
 
 ////////////////////////// ADDING MENUS
