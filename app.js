@@ -294,7 +294,7 @@ function receivedMessage(event) {
 
       case 'haha':
         var getRandomJoke = oneLinerJoke.getRandomJoke();
-        sendTextMessage(senderID, getRandomJoke);
+        sendTextMessage(senderID, getRandomJoke.body);
 
       case 'video':
         sendVideoMessage(senderID);
