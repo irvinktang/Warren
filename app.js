@@ -402,7 +402,7 @@ function receivedMessage(event) {
       break;
 
       case 'onboard': // deprecated because of "getting started" button
-      var msg = 'At any time, you may type 'menu' to get a complete list of functions. Briefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
+      var msg = "At any time, you may type 'menu' to get a complete list of functions. Briefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH"
       sendTextMessage(senderID, msg);
       break;
 
