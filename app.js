@@ -337,11 +337,11 @@ function receivedMessage(event) {
         sendAccountLinking(senderID);
         break;
 
-      case 'BITCOIN':
+      case 'bitcoin':
         sendTextMessage(senderID, 'something else');
         break;
 
-      case 'Bit Buttons':
+      case 'bit buttons':
         sendButtonMessage(senderID);
         break;
 
@@ -356,7 +356,7 @@ function receivedMessage(event) {
               var time = time.data.iso;
               var msg = 'Current pricing information as of ' + time + ':' + '\n' +
                 'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
-              sendCorrectMsg(senderID, msg);
+              sendButtonMessage(senderID, msg);
             })
           })
         })
