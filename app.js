@@ -599,7 +599,7 @@ function receivedPostback(event) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
   } else if(payload === 'gettingStarted') {
-    return sendTextMessage(sender.ID, "Hello");
+    return sendTextMessage(senderID, "Hello");
   } else if (payload === "Sell_Price"){
     return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
