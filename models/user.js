@@ -7,7 +7,7 @@ var User = mongoose.model('User', {
     type: String,
     required: true
   },
-  preferences: {
+  preferredExchange: {
     type: Array,
   }
 })

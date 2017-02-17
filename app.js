@@ -268,12 +268,25 @@ function receivedMessage(event) {
     messageId, appId, metadata);
     return;
   } else if (quickReply) {
-    var quickReplyPayload = quickReply.payload;
-    console.log("Quick reply for message %s with payload %s",
-    messageId, quickReplyPayload);
+      var quickReplyPayload = quickReply.payload;
+      console.log("Quick reply for message %s with payload %s",
+      messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
-    return;
+      if(quickReplyPayload === 'poloniex') {
+        var arr = [];
+        arr.push('poloniex');
+        var user = new User({
+          userId: senderID,
+          preferredExchange: arr
+        }).save();
+      } else if(quickReplyPayload === 'coinbase') {
+
+      } else if(quickReplyPayload === 'other') {
+        return sendTextMessage(senderID, "Please enter your preferred exchange");
+      }
+
+      // sendTextMessage(senderID, "Quick reply tapped");
+      return;
   }
 
   if (messageText) {
