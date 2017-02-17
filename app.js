@@ -326,6 +326,8 @@ function receivedMessage(event) {
         request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
           if (!error && response.statusCode == 200) {
             console.log(body) // Show the HTML for the Google homepage.
+            var myText = body.bpi.USD.rate;
+            sendTextMessage(senderID, myText);
           }
         })
         break;
