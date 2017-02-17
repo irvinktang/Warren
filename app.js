@@ -267,6 +267,8 @@ function receivedMessage(event) {
 
       case 'onboard':
         var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n Briefing: a real-time summary of data, courtesy of Coinbase. \n Buttons: click to view '
+        sendTextMessage(senderID, msg);
+        break;
 
       case 'image':
         sendImageMessage(senderID);
