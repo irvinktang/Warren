@@ -382,7 +382,7 @@ function receivedMessage(event) {
       addPersistentMenu();
       break;
 
-      case 'generic':
+      case 'charts':
         sendGenericMessage(senderID);
         break;
 
@@ -822,32 +822,24 @@ function sendGenericMessage(recipientId) {
         payload: {
           template_type: "generic",
           elements: [{
-            title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",
-            image_url: SERVER_URL + "/assets/rift.png",
+            title: "Bitstamp",
+            subtitle: "BTC-USD",
+            item_url: "https://www.bitstamp.net/market/tradeview/",
+            image_url: 'https://btc.ng/wp-content/uploads/2016/04/Screen-Shot-2015-01-06-at-09.01.51.png',
             buttons: [{
               type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
+              url: "https://www.bitstamp.net/market/tradeview/",
               title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
             }],
           }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",
-            image_url: SERVER_URL + "/assets/touch.png",
+            title: "Coinbase",
+            subtitle: "BTC-USD",
+            item_url: "https://www.coinbase.com/charts?locale=en",
+            image_url: 'https://www.coinbase.com/assets/press/coinbase-logos/coinbase.png',
             buttons: [{
               type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
+              url: "https://www.coinbase.com/charts?locale=en",
               title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
             }]
           }]
         }
