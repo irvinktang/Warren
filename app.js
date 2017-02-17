@@ -598,6 +598,8 @@ function receivedPostback(event) {
     return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
+  } else if(payload === 'gettingStarted') {
+    return sendTextMessage(sender.ID, "Hello");
   } else if (payload === "Sell_Price"){
     return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
@@ -1326,7 +1328,6 @@ function createGreetingApi(data) {
       console.log("Greeting set successfully!");
     } else {
       console.error("Failed calling Thread Reference API", response.statusCode, response.statusMessage, body.error);
-      sendTextMessage(data.sender.id, "Hello")
     }
   });
 }
