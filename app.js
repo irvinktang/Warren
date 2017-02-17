@@ -358,7 +358,7 @@ function receivedMessage(event) {
       break;
 
         default:
-        sendTextMessage(senderID, 'Sorry, I could not recognize that command.');
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + ".'");
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
