@@ -340,6 +340,10 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
+      case 'don dyu':
+        sendGifMessage(senderID);
+        break;
+
         case 'onboard':
           var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
           sendTextMessage(senderID, msg);
@@ -445,17 +449,17 @@ function receivedPostback(event) {
 
   if (payload === "Buy_Price"){
     return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
+      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
   }
   else if (payload === "Sell_Price"){
     return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
+      return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
     });
   }
   else if (payload === "Price"){
     return client.getSpotPrice({'currency': 'usd'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
+      return sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount)
     });
   }
 
@@ -568,7 +572,7 @@ function sendBitcoin(recipientId) {
             payload: "Sell_Price"
           }, {
             type: "postback",
-            title: "Price",
+            title: "Spot Price",
             payload: "Price"
           }]
         }
@@ -610,7 +614,7 @@ function sendGifMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/instagram_logo.gif"
+          url: giphy.com/embed/MP3997WgAntFm
         }
       }
     }
