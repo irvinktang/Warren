@@ -23,6 +23,7 @@
     "config": "^1.20.4",
     "ejs": "^2.4.2",
     "express": "^4.13.4",
+    "google-speech": "0.0.5",
     "mongoose": "^4.8.3",
     "nuance": "^1.1.1",
     "one-liner-joke": "^1.0.0",

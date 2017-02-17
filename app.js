@@ -30,7 +30,7 @@ var client = new Client({
   'apiSecret': 'API SECRET'
 });
 
-
+var google_speech = require('google-speech');
 
 
 var User = require('./models/user').User;
@@ -517,7 +517,21 @@ function receivedMessage(event) {
     console.log('YOOOOOOO BRO')
     console.log(messageAttachments);
     sendTextMessage(senderID, "Message with attachment received");
-  }
+
+    google_speech.ASR({
+      developer_key: 'AIzaSyC_WVvBbOUxcn76AgjFfjGJdeyIw7RsqOs',
+      file: 'https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3',
+    }, function(err, httpResponse, xml){
+      if(err){
+        console.log('ERROR IN ASR')
+        console.log(err);
+      }else{
+        console.log('NO ERROR IN ASR')
+        console.log(httpResponse.statusCode, xml)
+      }
+    }
+  );
+}
 }
 
 ////////////////////////// ADDING MENUS
