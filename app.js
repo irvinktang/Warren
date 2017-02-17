@@ -411,7 +411,7 @@ function receivedMessage(event) {
         request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
-            var newMsg="We would recommend " + msg.bid > coinPrice ? coinPrice : msg.bid ".\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice;
+            var newMsg="We would recommend " + (msg.bid > coinPrice ? coinPrice : msg.bid) ".\n Bitstamp: " + msg.bid + "\nCoinbase: " + coinPrice;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -423,7 +423,7 @@ function receivedMessage(event) {
         request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
-            var newMsg="We would recommend " + msg.ask > coinPrice ? msg.ask : coinPrice ".\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice;
+            var newMsg="We would recommend " + (msg.ask > coinPrice ? msg.ask : coinPrice) ".\n Bitstamp: " + msg.ask + "\nCoinbase: " + coinPrice;
             sendTextMessage(senderID, newMsg);
           }
         })
