@@ -16,7 +16,15 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request');
+  request = require('request')
+
+var Client = require 'coinbase' Client;
+var client = new Client({
+  'apiKey': 'API KEY',
+  'apiSecret': 'API SECRET'
+});
+
+currencyCode = 'USD';
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -318,17 +326,24 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
-      case 'right now rate':
-        request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
-          if (!error && response.statusCode == 200) {
-            var someText = JSON.stringify(body);
-            console.log('someText : ', someText)
-            var myText = someText['bpi'];
-            console.log(myText);
-            sendTextMessage(senderID, myText);
-          }
-        })
-        break;
+      // case 'right now rate':
+      //   request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
+      //     if (!error && response.statusCode == 200) {
+      //       var someText = JSON.stringify(body);
+      //       console.log('someText : ', someText)
+      //       var myText = someText['bpi'];
+      //       console.log(myText);
+      //       sendTextMessage(senderID, myText);
+      //     }
+      //   })
+      //   break;
+
+      case 'right now date':
+      client.getSpotPrice({'currency': currencyCode}, function(err, price) {
+        sendTextMessage(senderID, 'Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
+        // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
+      });
+      break;
 
       case 'right now date':
         sendTextMessage(senderID, Date.now());
