@@ -318,21 +318,21 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
-        case 'right now date':
+      case 'right now date':
         sendTextMessage(senderID, Date.now());
         break;
 
-        case 'right now rate':
+      case 'right now rate':
         request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            console.log(body) // Show the HTML for the Google homepage.
-            var myText = body.bpi.USD.rate;
+            var myText = body['bpi']
+            console.log(myText);
             sendTextMessage(senderID, myText);
           }
         })
         break;
 
-      default:
+        default:
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
