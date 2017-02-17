@@ -19,6 +19,7 @@ const
   request = require('request');
 
 var app = express();
+var request = require('request');
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
@@ -323,10 +324,9 @@ function receivedMessage(event) {
         break;
 
         case 'right now rate':
-        $.ajax({
-          url: 'https://api.coindesk.com/v1/bpi/currentprice.json',
-          success: function(data) {
-            console.log(data);
+        request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            console.log(body) // Show the HTML for the Google homepage.
           }
         })
         break;
