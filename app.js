@@ -30,7 +30,7 @@ var client = new Client({
 });
 
 var dateFormat = require('dateformat');
-
+// var time = require('time');
 var weather = require('weather-js');
 
 var google_speech = require('google-speech');
@@ -470,7 +470,7 @@ function receivedMessage(event) {
           var currentTemp = myWeather[0].current.temperature;
           // });
           var now = new Date();
-          var currentTime = dateFormat(now, "PST:h:MM:ss TT");
+          var currentTime = dateFormat(now, "UTC-8:h:MM:ss TT");
           var currentDate = dateFormat(now, "dddd, mmmm dS, yyyy");
           client.getSpotPrice({'currency': 'USD'}, function(err, price) {
             var spot = price.data.amount;
