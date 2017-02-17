@@ -102,9 +102,20 @@ app.get('/webhook', function(req, res) {
 });
 
 app.get('/postaudio', function(req, res){
-  request('https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3', function (error, response, body) {
+  request.post('https://speech.googleapis.com/v1beta1/speech:syncrecognize',{
+    json:{
+      'config': {
+        'encoding':'FLAC',
+        'sampleRate': 16000,
+        'languageCode': 'en-US'
+      },
+      'audio': {
+        'uri':'https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3'
+      }
+    }
+  },  function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log(body) //
+      res.json(body) //
     }
   })
 })
@@ -118,6 +129,7 @@ app.get('/postaudio', function(req, res){
 */
 app.post('/webhook', function (req, res) {
   var data = req.body;
+
 
   // Make sure this is a page subscription
   if (data.object == 'page') {
