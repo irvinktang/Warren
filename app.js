@@ -318,10 +318,6 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
-      case 'right now date':
-        sendTextMessage(senderID, Date.now());
-        break;
-
       case 'right now rate':
         request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -330,6 +326,10 @@ function receivedMessage(event) {
             sendTextMessage(senderID, myText);
           }
         })
+        break;
+
+      case 'right now date':
+        sendTextMessage(senderID, Date.now());
         break;
 
         default:
