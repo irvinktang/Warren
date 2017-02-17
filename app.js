@@ -9,7 +9,6 @@
 
 /* jshint node: true, devel: true */
 'use strict';
-
 const
 bodyParser = require('body-parser'),
 config = require('config'),
@@ -31,8 +30,6 @@ var client = new Client({
 });
 
 var google_speech = require('google-speech');
-
-
 var User = require('./models/user').User;
 var Nuance = require('nuance');
 var nuance = new Nuance('appID', 'appKey');
@@ -45,7 +42,6 @@ mongoose.connection.on('error', function() {
   process.exit(1);
 });
 mongoose.connect(process.env.MONGODB_URI);
-
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -129,8 +125,6 @@ app.get('/postaudio', function(req, res){
 */
 app.post('/webhook', function (req, res) {
   var data = req.body;
-
-
   // Make sure this is a page subscription
   if (data.object == 'page') {
     // Iterate over each entry
@@ -168,7 +162,6 @@ app.post('/webhook', function (req, res) {
 });
 
 app.post('/me/thread_settings?access_token=' + process.env.MESSENGER_PAGE_ACCESS_TOKEN)
-
 /*
 * This path is used for account linking. The account linking call-to-action
 * (sendAccountLinking) is pointed to this URL.
@@ -191,9 +184,6 @@ app.get('/authorize', function(req, res) {
     redirectURISuccess: redirectURISuccess
   });
 });
-
-
-
 /*
 * Verify that the callback came from Facebook. Using the App Secret from
 * the App Dashboard, we can verify the signature that is sent with each
@@ -204,7 +194,6 @@ app.get('/authorize', function(req, res) {
 */
 function verifyRequestSignature(req, res, buf) {
   var signature = req.headers["x-hub-signature"];
-
   if (!signature) {
     // For testing, let's log an error. In production, you should throw an
     // error.
@@ -213,17 +202,14 @@ function verifyRequestSignature(req, res, buf) {
     var elements = signature.split('=');
     var method = elements[0];
     var signatureHash = elements[1];
-
     var expectedHash = crypto.createHmac('sha1', APP_SECRET)
     .update(buf)
     .digest('hex');
-
     if (signatureHash != expectedHash) {
       throw new Error("Couldn't validate the request signature.");
     }
   }
 }
-
 /*
 * Authorization Event
 *
@@ -236,14 +222,12 @@ function receivedAuthentication(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfAuth = event.timestamp;
-
   // The 'ref' field is set in the 'Send to Messenger' plugin, in the 'data-ref'
   // The developer can set this to an arbitrary value to associate the
   // authentication callback with the 'Send to Messenger' click event. This is
   // a way to do account linking when the user clicks the 'Send to Messenger'
   // plugin.
   var passThroughParam = event.optin.ref;
-
   console.log("Received authentication for user %d and page %d with pass " +
   "through param '%s' at %d", senderID, recipientID, passThroughParam,
   timeOfAuth);
@@ -252,7 +236,6 @@ function receivedAuthentication(event) {
   // to let them know it was successful.
   sendTextMessage(senderID, "Authentication successful");
 }
-
 /*
 * Message Event
 *
@@ -272,7 +255,6 @@ function receivedMessage(event) {
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
-
   // FIX THIS
   // var myUser = {};
   // // initial save of user information if he doesnt exist already
@@ -294,28 +276,22 @@ function receivedMessage(event) {
   // console.log(myUser);
   // var myCurrency = myUser.preferredExchange[0];
   // var myTime = myUser.preferredTime;
-
-
   console.log("Received message for user %d and page %d at %d with message:",
   senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
-
   var isEcho = message.is_echo;
   var messageId = message.mid;
   var appId = message.app_id;
   var metadata = message.metadata;
-
   // You may get a text or attachment but not both
   var messageText = message.text;
   var messageAttachments = message.attachments;
   var quickReply = message.quick_reply;
-
   if (isEcho) {
     // Just logging message echoes to console
     console.log("Received echo for message %s and app %d with metadata %s",
     messageId, appId, metadata);
     return;
-
   } else if (quickReply) {
     var quickReplyPayload = quickReply.payload;
     console.log("Quick reply for message %s with payload %s",
@@ -334,17 +310,13 @@ function receivedMessage(event) {
         console.log(foundUser);
       })
       return sendTextMessage(senderID, 'Saved.');
-
       // else if(quickReplyPayload === 'otherExchange') {
       //   return sendTextMessage(senderID, "Hmmmm idk what to do then b");
-
       // ROUTING PURPOSES
     } else if(quickReplyPayload === 'exchange'){
       return exchangeReply(senderID);
     } else if(quickReplyPayload === 'alert'){
       return alertReply(senderID);
-
-
     } else if(quickReplyPayload === 'morning'){
       var preferredTime = 'morning';
       User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
@@ -367,64 +339,10 @@ function receivedMessage(event) {
       // // sendTextMessage(senderID, "Quick reply tapped");
       // return;
     } else if (messageText) {
-
       // If we receive a text message, check to see if it matches any special
       // keywords and send back the corresponding example. Otherwise, just echo
       // the text we received.
       switch (changeCase.lowerCase(messageText)) {
-
-        // case 'image':
-        //   sendImageMessage(senderID);
-        //   break;
-        //
-        // case 'gif':
-        //   sendGifMessage(senderID);
-        //   break;
-        //
-        //
-        // case 'video':
-        //   sendVideoMessage(senderID);
-        //   break;
-        //
-        // case 'file':
-        //   sendFileMessage(senderID);
-        //   break;
-        //
-        // case 'button':
-        //   sendButtonMessage(senderID);
-        //   break;
-        //
-        // case 'generic':
-        //   sendGenericMessage(senderID);
-        //   break;
-        //
-        // case 'receipt':
-        //   sendReceiptMessage(senderID);
-        //   break;
-        //
-        // case 'quick reply':
-        //   sendQuickReply(senderID);
-        //   break;
-        //
-        // case 'read receipt':
-        //   sendReadReceipt(senderID);
-        //   break;
-        //
-        // case 'typing on':
-        //   sendTypingOn(senderID);
-        //   break;
-        //
-        // case 'typing off':
-        //   sendTypingOff(senderID);
-        //   break;
-        //
-        // case 'account linking':
-        //   sendAccountLinking(senderID);
-        //   break;
-        // case 'bit buttons':
-        //   sendButtonMessage(senderID);
-        //   break;
-
         case 'ticker':
         request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -444,24 +362,6 @@ function receivedMessage(event) {
         case 'audio':
         sendAudioMessage(senderID);
         break;
-
-        //       case 'text to speech':
-        //       nuance.sendTTSRequest({
-        //     "text": "hello world", //The text you would like to convert to speech.
-        //     "output": "testFile.wav", //The output file.
-        //     "outputFormat": "wav", //The codec you would like to use.
-        //     "language": "en_US", //The language code (please refer to Nuance's documentation for more info).
-        //     "voice": "Tom", //The voice you would like to use (please refer to Nuance's documentation for more info).
-        //     "identifier": "randomIdentifierStringHere", //The user identifier (please refer to Nuance's documentation for more info).
-        //     "success": function(){ //The success callback function.
-        //         console.log("The file was saved.");
-        //     },
-        //     "error": function(response){ //The error callback function - returns the response from Nuance that you can debug.
-        //         console.log("An error was occurred");
-        //         console.log(response);
-        //     }
-        // });
-        // break;
 
         case 'add menu':
         addPersistentMenu();
@@ -525,12 +425,10 @@ function receivedMessage(event) {
           })
         });
         break;
-
         // case messageText:
-        //     var msg = "Did you mean... " + autocorrect(messageText) + "?"
+        //     var msg = "Did you mean... " + autocorrect(messageText) +
         //     sendCorrectMsg(senderID, msg, messageText);
         //     break;
-
         default:
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. Please try again, or type 'menu' to review your options.");
       }
@@ -538,23 +436,23 @@ function receivedMessage(event) {
       console.log('YOOOOOOO BRO')
       console.log(messageAttachments);
       sendTextMessage(senderID, "Message with attachment received");
-
-      google_speech.ASR({
-        developer_key: 'AIzaSyC_WVvBbOUxcn76AgjFfjGJdeyIw7RsqOs',
-        file: 'https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3',
-      }, function(err, httpResponse, xml){
-        if(err){
-          console.log('ERROR IN ASR')
-          console.log(err);
-        }else{
-          console.log('NO ERROR IN ASR')
-          console.log(httpResponse.statusCode, xml)
-        }
-      }
-    );
+    }
   }
 }
-}
+    //   google_speech.ASR({
+    //     developer_key: 'AIzaSyC_WVvBbOUxcn76AgjFfjGJdeyIw7RsqOs',
+    //     file: 'https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3',
+    //   }, function(err, httpResponse, xml){
+    //     if(err){
+    //       console.log('ERROR IN ASR')
+    //       console.log(err);
+    //     }else{
+    //       console.log('NO ERROR IN ASR')
+    //       console.log(httpResponse.statusCode, xml)
+    //     }
+    //   }
+    // );
+
 
 ////////////////////////// ADDING MENUS
 function addPersistentMenu(){
@@ -588,10 +486,6 @@ function addPersistentMenu(){
     }
   })
 }
-
-
-
-
 /*
 * Delivery Confirmation Event
 *
@@ -635,18 +529,18 @@ function receivedPostback(event) {
   var payload = event.postback.payload;
 
   if (payload === "Buy_Price"){
-    return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+    client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
   } else if(payload === 'gettingStarted') {
     // COPY CASE MENU
     return sendTextMessage(senderID, "Hello");
   } else if (payload === "Sell_Price"){
-    return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+    client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
     });
   } else if (payload === "Price"){
-    return client.getSpotPrice({'currency': 'usd'}, function(err, price) {
+    client.getSpotPrice({'currency': 'usd'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount)
     });
   } else if (payload === "menu"){
@@ -677,9 +571,6 @@ function receivedPostback(event) {
   // let them know it was successful
   // sendTextMessage(senderID, "Postback called");
 }
-
-
-
 // // ANOTHER CUSTOM FUNCTION THAT REPLICATES RECEIVED Postback
 // /// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
 //
@@ -788,8 +679,6 @@ function sendBitcoin(recipientId) {
   };
   callSendAPI(messageData);
 }
-
-
 function sendImageMessage(recipientId) {
   var messageData = {
     recipient: {
