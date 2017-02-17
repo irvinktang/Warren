@@ -30,6 +30,9 @@ var client = new Client({
   'apiSecret': 'API SECRET'
 });
 
+
+
+
 var User = require('./models/user').User;
 var Nuance = require('nuance');
 var nuance = new Nuance('appID', 'appKey');
