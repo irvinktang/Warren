@@ -275,66 +275,66 @@ function receivedMessage(event) {
     // the text we received.
     switch (changeCase.lowerCase(messageText)) {
 
-        case 'image':
-        sendImageMessage(senderID);
-        break;
-
-      case 'gif':
-        sendGifMessage(senderID);
-        break;
-
-      case 'audio':
-        sendAudioMessage(senderID);
-        break;
-
-      case 'video':
-        sendVideoMessage(senderID);
-        break;
-
-      case 'file':
-        sendFileMessage(senderID);
-        break;
-
-      case 'button':
-        sendButtonMessage(senderID);
-        break;
-
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
-
-      case 'receipt':
-        sendReceiptMessage(senderID);
-        break;
-
-      case 'quick reply':
-        sendQuickReply(senderID);
-        break;
-
-      case 'read receipt':
-        sendReadReceipt(senderID);
-        break;
-
-      case 'typing on':
-        sendTypingOn(senderID);
-        break;
-
-      case 'typing off':
-        sendTypingOff(senderID);
-        break;
-
-      case 'account linking':
-        sendAccountLinking(senderID);
-        break;
-
-        case 'haha':
-          var getRandomJoke = oneLinerJoke.getRandomJoke();
-          sendTextMessage(senderID, getRandomJoke.body);
-          break;
-
-      // case 'bitcoin':
-      //   sendTextMessage(senderID, 'something else');
+      // case 'image':
+      //   sendImageMessage(senderID);
       //   break;
+      //
+      // case 'gif':
+      //   sendGifMessage(senderID);
+      //   break;
+      //
+      // case 'audio':
+      //   sendAudioMessage(senderID);
+      //   break;
+      //
+      // case 'video':
+      //   sendVideoMessage(senderID);
+      //   break;
+      //
+      // case 'file':
+      //   sendFileMessage(senderID);
+      //   break;
+      //
+      // case 'button':
+      //   sendButtonMessage(senderID);
+      //   break;
+      //
+      // case 'generic':
+      //   sendGenericMessage(senderID);
+      //   break;
+      //
+      // case 'receipt':
+      //   sendReceiptMessage(senderID);
+      //   break;
+      //
+      // case 'quick reply':
+      //   sendQuickReply(senderID);
+      //   break;
+      //
+      // case 'read receipt':
+      //   sendReadReceipt(senderID);
+      //   break;
+      //
+      // case 'typing on':
+      //   sendTypingOn(senderID);
+      //   break;
+      //
+      // case 'typing off':
+      //   sendTypingOff(senderID);
+      //   break;
+      //
+      // case 'account linking':
+      //   sendAccountLinking(senderID);
+      //   break;
+
+      case 'add menu':
+        addPersistentMenu();
+        break;
+
+      case 'haha':
+        var getRandomJoke = oneLinerJoke.getRandomJoke();
+        sendTextMessage(senderID, getRandomJoke.body);
+        break;
 
       case 'bit buttons':
         sendButtonMessage(senderID);
@@ -344,32 +344,32 @@ function receivedMessage(event) {
         sendGifMessage(senderID);
         break;
 
-        case 'onboard':
-          var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
-          sendTextMessage(senderID, msg);
-          break;
+      case 'onboard':
+        var msg = 'Thanks for checking out Botty, yourpersonal crypto-plug. We have a plethora of featuresin store for you. \n \nBriefing: a real-time summaryof data, courtesy of Coinbase. \nButtons: click toview BLAH BLAH'
+        sendTextMessage(senderID, msg);
+        break;
 
-        case 'buy price':
-          client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-            sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
-          });
-          break;
+      case 'buy price':
+        client.getBuyPrice({'currencyPair': 'BTC-USD'},function(err, price) {
+          sendTextMessage(senderID, 'Current bitcoin buyingprice in ' + 'usd' + ': ' +  price.data.amount)
+        });
+        break;
 
-        case 'price':
-          client.getSpotPrice({'currency': 'usd'}, function(err, price) {
-            sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
-          });
-          break;
+      case 'price':
+        client.getSpotPrice({'currency': 'usd'},function(err, price) {
+          sendTextMessage(senderID, 'Current bitcoin price in' + 'usd' + ': ' +  price.data.amount)
+        });
+        break;
 
-        case 'sell price':
-          client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-            sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
-          });
-          break;
+      case 'sell price':
+        client.getSellPrice({'currencyPair': 'BTC-USD'},function(err, price) {
+          sendTextMessage(senderID, 'Current bitcoin sellingprice in ' + 'usd' + ': ' +  price.data.amount)
+        });
+        break;
 
-        case 'bitcoin':
-          sendBitcoin(senderID);
-          break;
+      case 'bitcoin':
+        sendBitcoin(senderID);
+        break;
 
       case 'briefing':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
@@ -394,15 +394,48 @@ function receivedMessage(event) {
       //     sendCorrectMsg(senderID, msg, messageText);
       //     break;
 
-
-
       default:
-        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. You may have meant " + " '" + autocorrect(messageText) + "'" + ".");
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. Please try again.");
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
+
+////////////////////////// ADDING MENUS
+function addPersistentMenu(){
+ request({
+    url: 'https://graph.facebook.com/v2.6/me/thread_settings',
+    qs: { access_token: PAGE_ACCESS_TOKEN },
+    method: 'POST',
+    json:{
+        setting_type : "call_to_actions",
+        thread_state : "existing_thread",
+        call_to_actions:[
+            {
+              type:"postback",
+              title:"Menu",
+              payload:"menu"
+            },
+            {
+              type:"postback",
+              title:"Quick Summary",
+              payload:"quick"
+            }
+          ]
+    }
+
+}, function(error, response, body) {
+    console.log(response)
+    if (error) {
+        console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+        console.log('Error: ', response.body.error)
+    }
+})
+}
+
+
 
 
 /*
@@ -451,15 +484,32 @@ function receivedPostback(event) {
     return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
-  }
-  else if (payload === "Sell_Price"){
+  } else if (payload === "Sell_Price"){
     return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
     });
-  }
-  else if (payload === "Price"){
+  } else if (payload === "Price"){
     return client.getSpotPrice({'currency': 'usd'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount)
+    });
+  } else if (payload === "menu"){
+    var msg = "You have the following options: "
+    return sendTextMessage(senderID, msg)
+  } else if (payload === "quick"){
+    client.getSpotPrice({'currency': 'USD'}, function(err, price) {
+      var spot = price.data.amount;
+      client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+        var sell = price.data.amount;
+        client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+          var buy = price.data.amount;
+          client.getTime(function(err, time) {
+            var time = time.data.iso;
+            var msg = 'Current pricing information as of ' + time + ':' + '\n' +
+              'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
+            return sendTextMessage(senderID, msg);
+          })
+        })
+      })
     });
   }
 
