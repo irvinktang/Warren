@@ -338,6 +338,26 @@ function receivedMessage(event) {
 
       case 'current rate':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
+        var spot = price.data.amount;
+        client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+          var sell = price.data.amount;
+          client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+            var buy = price.data.amount;
+            client.getTime(function(err, time) {
+              var time = time.data.iso;
+              var msg = 'Current pricing information as of ' + time + ':' + \n +
+                'Sell: ' + sell + \n + 'Buy: ' + buy + \n + 'Spot: ' + spot;
+              sendTextMessage(senderID, msg);
+            })
+          })
+        })
+
+        // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
+      });
+      break;
+
+      case 'brief':
+      client.getSpotPrice({'currency': 'USD'}, function(err, price) {
         sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount);
         // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
       });
