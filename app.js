@@ -248,6 +248,20 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
+  // initial save of user information if he doesnt exist already
+  User.findOne({userId: senderID}, function(err, foundUser) {
+    if(!foundUser) {
+      var user = new User({
+        userId: senderID,
+        preferredExchange: [],
+        preferredTime: ''
+      }).save();
+    } else {
+      console.log('FOUND A USER');
+    }
+  })
+
+
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
@@ -271,20 +285,47 @@ function receivedMessage(event) {
       var quickReplyPayload = quickReply.payload;
       console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
-
       if(quickReplyPayload === 'poloniex') {
         var arr = [];
         arr.push('poloniex');
-        var user = new User({
-          userId: senderID,
-          preferredExchange: arr
-        }).save();
+        User.findOneAndUpdate({userId: senderID}, {preferredExchange: arr}, function(err, foundUser) {
+          console.log(foundUser);
+        })
+        return sendTextMessage(senderID, 'Saved.');
       } else if(quickReplyPayload === 'coinbase') {
+        var arr = [];
+        arr.push('coinbase');
+        User.findOneAndUpdate({userId: senderID}, {preferredExchange: arr}, function(err, foundUser) {
+          console.log(foundUser);
+        })
 
-      } else if(quickReplyPayload === 'other') {
-        return sendTextMessage(senderID, "Please enter your preferred exchange");
+        return sendTextMessage(senderID, 'Saved.');
+      } else if(quickReplyPayload === 'otherExchange') {
+        return sendTextMessage(senderID, "Hmmmm idk what to do then b");
+
+        // ROUTING PURPOSES
+      } else if(quickReplyPayload === 'exchange'){
+        return exchangeReply(senderID);
+      } else if(quickReplyPayload === 'alert'){
+        return alertReply(senderID);
+
+
+      } else if(quickReplyPayload === 'morning'){
+        var preferredTime = 'morning';
+        User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
+          console.log(foundUser);
+        })
+      } else if(quickReplyPayload === 'noon'){
+        var preferredTime = 'noon';
+        User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
+          console.log(foundUser);
+        })
+      } else if(quickReplyPayload === 'afternoon'){
+        var preferredTime = 'afternoon';
+        User.findOneAndUpdate({userId: senderID}, {preferredTime: preferredTime}, function(err, foundUser) {
+          console.log(foundUser);
+        })
       }
-
       // sendTextMessage(senderID, "Quick reply tapped");
       return;
   }
@@ -1025,6 +1066,35 @@ function preferencesReply(recipientId) {
       id: recipientId
     },
     message: {
+      text: "What would you like to configure?",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Exchange",
+          "payload":"exchange"
+        },
+        {
+          "content_type":"text",
+          "title":"Alert Frequency",
+          "payload":"alert"
+        },
+        {
+          "content_type":"text",
+          "title":"Other",
+          "payload":"otherPreferences"
+        }
+      ]
+    }
+  };
+  callSendAPI(messageData);
+}
+
+function exchangeReply(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
       text: "What is your preferred exchange?",
       quick_replies: [
         {
@@ -1040,7 +1110,7 @@ function preferencesReply(recipientId) {
         {
           "content_type":"text",
           "title":"Other",
-          "payload":"other"
+          "payload":"otherExchange"
         }
       ]
     }
@@ -1048,7 +1118,34 @@ function preferencesReply(recipientId) {
   callSendAPI(messageData);
 }
 
-
+function alertReply(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "When would you like to be notified during the day? (EST)",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Morning",
+          "payload":"morning"
+        },
+        {
+          "content_type":"text",
+          "title":"Noon",
+          "payload":"coinbase"
+        },
+        {
+          "content_type":"text",
+          "title":"Afternoon",
+          "payload":"afternoon"
+        }
+      ]
+    }
+  };
+  callSendAPI(messageData);
+}
 
 /*
  * Send a read receipt to indicate the message has been read

@@ -8,7 +8,10 @@ var User = mongoose.model('User', {
     required: true
   },
   preferredExchange: {
-    type: Array,
+    type: Array
+  },
+  preferredTime: {
+    type: String
   }
 })
 
