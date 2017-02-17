@@ -314,6 +314,10 @@ function receivedMessage(event) {
         sendTextMessage(senderID, 'something else');
         break;
 
+      case 'Bit Buttons':
+        sendButtonMessage(senderID);
+        break;
+
       case 'right now date':
         sendTextMessage(senderID, Date.now());
         break;
@@ -561,8 +565,8 @@ function sendButtonMessage(recipientId) {
           text: "This is test text",
           buttons:[{
             type: "web_url",
-            url: "https://www.oculus.com/en-us/rift/",
-            title: "Open Web URL"
+            url: "http://bitcointicker.co/coinbase/",
+            title: "Go to live ticker"
           }, {
             type: "postback",
             title: "Trigger Postback",
