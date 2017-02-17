@@ -605,6 +605,9 @@ function sendImageMessage(recipientId) {
  * Send a Gif using the Send API.
  *
  */
+
+
+
 function sendGifMessage(recipientId) {
   var messageData = {
     recipient: {
