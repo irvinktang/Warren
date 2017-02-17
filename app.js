@@ -356,7 +356,7 @@ function receivedMessage(event) {
               var time = time.data.iso;
               var msg = 'Current pricing information as of ' + time + ':' + '\n' +
                 'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
-              sendButtonMessage(senderID, msg);
+              sendTextMessage(senderID, msg);
             })
           })
         })
@@ -369,7 +369,7 @@ function receivedMessage(event) {
       //     break;
 
         default:
-        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'.");
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. You may have meant" + autocrrect(messageText) + ".");
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
