@@ -265,6 +265,7 @@ function receivedMessage(event) {
     } else {
       console.log('FOUND A USER');
       var myUser = foundUser;
+      console.log(myUser);
     }
   })
 
