@@ -110,6 +110,11 @@ app.get('/postaudio', function(req, res){
       }
     }
   },  function (error, response, body) {
+    res.json({
+      error: error,
+      response: response,
+      body: body
+    })
     if (!error && response.statusCode == 200) {
       res.json({
         body: body,
