@@ -464,7 +464,8 @@ function receivedMessage(event) {
 
         case 'briefing':
         weather.find({search: 'San Francisco, CA', degreeType: 'F'}, function(err, realWeather) {
-          var myWeather = JSON.parse(realWeather);
+          var givenWeather = JSON.stringify(realWeather);
+          var myWeather = JSON.parse(givenWeather);
           console.log('weather', myWeather[0])
           var currentTemp = myWeather[0].current.temperature;
           // });
