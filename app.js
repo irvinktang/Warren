@@ -10,11 +10,6 @@
 /* jshint node: true, devel: true */
 'use strict';
 
-
-
-
-
-
 const
   bodyParser = require('body-parser'),
   config = require('config'),
@@ -24,6 +19,7 @@ const
   request = require('request'),
   oneLinerJoke = require('one-liner-joke'),
   changeCase = require('change-case'),
+  mongoose = require('mongoose'),
 
   words = ['onboard'],
   autocorrect = require('autocorrect')({words: words})
@@ -33,6 +29,18 @@ var client = new Client({
   'apiKey': 'API KEY',
   'apiSecret': 'API SECRET'
 });
+
+var User = require('./models/user').User;
+
+mongoose.connection.on('connected', function() {
+  console.log('Success: connected to MongoDb!');
+});
+mongoose.connection.on('error', function() {
+  console.log('Error connecting to MongoDb. Check MONGODB_URI in config.js');
+  process.exit(1);
+});
+mongoose.connect(process.env.MONGODB_URI);
+
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -326,6 +334,14 @@ function receivedMessage(event) {
       // case 'account linking':
       //   sendAccountLinking(senderID);
       //   break;
+      // case 'bit buttons':
+      //   sendButtonMessage(senderID);
+      //   break;
+
+      case 'menu':
+        var msg = "These are all your options:";
+        sendTextMessage(senderID, msg);
+        break;
 
       case 'add menu':
         addPersistentMenu();
@@ -336,8 +352,9 @@ function receivedMessage(event) {
         sendTextMessage(senderID, getRandomJoke.body);
         break;
 
-      case 'bit buttons':
-        sendButtonMessage(senderID);
+      case 'preferences':
+        // sendTextMessage(senderID, "What is your preferred exchange?");
+        preferencesReply(senderID);
         break;
 
       case 'don dyu':
@@ -395,7 +412,7 @@ function receivedMessage(event) {
       //     break;
 
       default:
-        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. Please try again.");
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. Please try again, or type 'menu' to review your options.");
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -518,7 +535,7 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  // sendTextMessage(senderID, "Postback called");
 }
 
 
@@ -798,7 +815,6 @@ function sendButtonMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-
 ///// CUSTOM
 // function sendCorrectMsg(recipientId, msg, incorrectText) {
 //   var messageData = {
@@ -986,9 +1002,40 @@ function sendQuickReply(recipientId) {
       ]
     }
   };
-
   callSendAPI(messageData);
 }
+
+//// CUSTOM QUICK REPLY
+function preferencesReply(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "What is your preferred exchange?",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Poloniex",
+          "payload":"poloniex"
+        },
+        {
+          "content_type":"text",
+          "title":"Coinbase",
+          "payload":"coinbase"
+        },
+        {
+          "content_type":"text",
+          "title":"Other",
+          "payload":"other"
+        }
+      ]
+    }
+  };
+  callSendAPI(messageData);
+}
+
+
 
 /*
  * Send a read receipt to indicate the message has been read

@@ -23,6 +23,7 @@
     "config": "^1.20.4",
     "ejs": "^2.4.2",
     "express": "^4.13.4",
+    "mongoose": "^4.8.3",
     "one-liner-joke": "^1.0.0",
     "request": "^2.72.0"
   },
