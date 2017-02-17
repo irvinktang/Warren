@@ -17,10 +17,11 @@ const
   express = require('express'),
   https = require('https'),
   request = require('request'),
+  oneLinkerJoke = require('one-liner-joke'),
   changeCase = require('change-case'),
 
   words = ['onboard'],
-  autocorrect = require('autocorrect')()
+  autocorrect = require('autocorrect')({words: words})
 
 var Client = require('coinbase').Client;
 var client = new Client({
@@ -291,6 +292,10 @@ function receivedMessage(event) {
         sendAudioMessage(senderID);
         break;
 
+      case 'lol':
+        var getRandomJoke = oneLinkerJoke.getRandomJoke();
+        sendTextMessage(senderID, getRandomJoke);
+
       case 'video':
         sendVideoMessage(senderID);
         break;
@@ -358,7 +363,7 @@ function receivedMessage(event) {
       break;
 
         default:
-        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + ".'");
+        sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'.'");
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
