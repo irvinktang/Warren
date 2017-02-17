@@ -336,9 +336,9 @@ function receivedMessage(event) {
       //   })
       //   break;
 
-      case 'right now date':
+      case 'current rate':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
-        sendTextMessage(senderID, 'Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
+        sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount);
         // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
       });
       break;
