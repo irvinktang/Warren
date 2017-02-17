@@ -332,9 +332,9 @@ function receivedMessage(event) {
           sendTextMessage(senderID, getRandomJoke.body);
           break;
 
-      case 'bitcoin':
-        sendTextMessage(senderID, 'something else');
-        break;
+      // case 'bitcoin':
+      //   sendTextMessage(senderID, 'something else');
+      //   break;
 
       case 'bit buttons':
         sendButtonMessage(senderID);
