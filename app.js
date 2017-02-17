@@ -345,27 +345,27 @@ function receivedMessage(event) {
           sendTextMessage(senderID, msg);
           break;
 
-        case 'buy price':
-          client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-            sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
-          });
-          break;
-
-        case 'price':
-          client.getSpotPrice({'currency': 'usd'}, function(err, price) {
-            sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
-          });
-          break;
-
-        case 'sell price':
-          client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-            sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
-          });
-          break;
-
-        case 'bitcoin':
-          sendBitcoin(senderID);
-          break;
+        // case 'buy price':
+        //   client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+        //     sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
+        //   });
+        //   break;
+        //
+        // case 'price':
+        //   client.getSpotPrice({'currency': 'usd'}, function(err, price) {
+        //     sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
+        //   });
+        //   break;
+        //
+        // case 'sell price':
+        //   client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+        //     sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
+        //   });
+        //   break;
+        //
+        // case 'bitcoin':
+        //   sendBitcoin(senderID);
+        //   break;
 
       case 'briefing':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
@@ -441,21 +441,21 @@ function receivedPostback(event) {
   // button for Structured Messages.
   var payload = event.postback.payload;
 
-  if (payload === "Buy_Price"){
-    return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
-    });
-  }
-  else if (payload === "Sell_Price"){
-    return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
-    });
-  }
-  else if (payload === "Price"){
-    return client.getSpotPrice({'currency': 'usd'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
-    });
-  }
+  // if (payload === "Buy_Price"){
+  //   return client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+  //     return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'usd' + ': ' +  price.data.amount)
+  //   });
+  // }
+  // else if (payload === "Sell_Price"){
+  //   return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+  //     return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'usd' + ': ' +  price.data.amount)
+  //   });
+  // }
+  // else if (payload === "Price"){
+  //   return client.getSpotPrice({'currency': 'usd'}, function(err, price) {
+  //     return sendTextMessage(senderID, 'Current bitcoin price in ' + 'usd' + ': ' +  price.data.amount)
+  //   });
+  // }
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
     "at %d", senderID, recipientID, payload, timeOfPostback);
@@ -545,36 +545,36 @@ function receivedAccountLink(event) {
 
 
 // THIS IS TO CREATE BITCOIN - BUTTONS
-function sendBitcoin(recipientId) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Bitcoin Options",
-          buttons:[{
-            type: "postback",
-            title: "Buy Price",
-            payload: "Buy_Price"
-          }, {
-            type: "postback",
-            title: "Sell Price",
-            payload: "Sell_Price"
-          }, {
-            type: "postback",
-            title: "Price",
-            payload: "Price"
-          }]
-        }
-      }
-    }
-  };
-  callSendAPI(messageData);
-}
+// function sendBitcoin(recipientId) {
+//   var messageData = {
+//     recipient: {
+//       id: recipientId
+//     },
+//     message: {
+//       attachment: {
+//         type: "template",
+//         payload: {
+//           template_type: "button",
+//           text: "Bitcoin Options",
+//           buttons:[{
+//             type: "postback",
+//             title: "Buy Price",
+//             payload: "Buy_Price"
+//           }, {
+//             type: "postback",
+//             title: "Sell Price",
+//             payload: "Sell_Price"
+//           }, {
+//             type: "postback",
+//             title: "Price",
+//             payload: "Price"
+//           }]
+//         }
+//       }
+//     }
+//   };
+//   callSendAPI(messageData);
+// }
 
 
 function sendImageMessage(recipientId) {
