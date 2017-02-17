@@ -253,6 +253,12 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
+
+
+
+
+
+
   // var myUser = {};
   // // initial save of user information if he doesnt exist already
   // User.findOne({userId: senderID}, function(err, foundUser) {
@@ -1296,6 +1302,21 @@ function callSendAPI(messageData) {
 }
 
 
+function setGreetingText() {
+  var greetingData = {
+    "setting_type":"call_to_actions",
+    "thread_state":"new_thread",
+    "greeting": {
+      text: "Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please hit 'Get Started'."
+    }
+    "call_to_actions":[
+      {
+        "payload":"USER_DEFINED_PAYLOAD"
+      }]
+    }
+    createGreetingApi(greetingData);
+  }
+
 function createGreetingApi(data) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/thread_settings',
@@ -1312,21 +1333,22 @@ function createGreetingApi(data) {
   });
 }
 
-function setGreetingText() {
-  var greetingData = {
-    setting_type: "greeting",
-    greeting:{
-      text:"Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please type 'onboard'."
-    }
-  };
-  createGreetingApi(greetingData);
-}
+// function setGreetingText() {
+//   var greetingData = {
+//     setting_type: "greeting",
+//     greeting:{
+//       text:"Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please type 'onboard'."
+//     }
+//   };
+//   createGreetingApi(greetingData);
+// }
 
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
 // certificate authority.
 app.listen(app.get('port'), function() {
+
   console.log('Node app is running on port', app.get('port'));
   setGreetingText() ;
 });
