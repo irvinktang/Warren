@@ -253,26 +253,26 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  var myUser = {};
-  // initial save of user information if he doesnt exist already
-  User.findOne({userId: senderID}, function(err, foundUser) {
-    if(!foundUser) {
-      var user = new User({
-        userId: senderID,
-        preferredExchange: [],
-        preferredTime: ''
-      }).save();
-      myUser = user;
-    } else {
-      console.log('FOUND A USER; inside function');
-      myUser = foundUser;
-      console.log(myUser);
-    }
-  })
-  console.log('outside!')
-  console.log(myUser);
-  var myCurrency = myUser.preferredExchange[0];
-  var myTime = myUser.preferredTime;
+  // var myUser = {};
+  // // initial save of user information if he doesnt exist already
+  // User.findOne({userId: senderID}, function(err, foundUser) {
+  //   if(!foundUser) {
+  //     var user = new User({
+  //       userId: senderID,
+  //       preferredExchange: [],
+  //       preferredTime: ''
+  //     }).save();
+  //     myUser = user;
+  //   } else {
+  //     console.log('FOUND A USER; inside function');
+  //     myUser = foundUser;
+  //     console.log(myUser);
+  //   }
+  // })
+  // console.log('outside!')
+  // console.log(myUser);
+  // var myCurrency = myUser.preferredExchange[0];
+  // var myTime = myUser.preferredTime;
 
 
   console.log("Received message for user %d and page %d at %d with message:",
