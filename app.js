@@ -253,6 +253,7 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
+  // FIX THIS
   // var myUser = {};
   // // initial save of user information if he doesnt exist already
   // User.findOne({userId: senderID}, function(err, foundUser) {
@@ -513,6 +514,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. Please try again, or type 'menu' to review your options.");
     }
   } else if (messageAttachments) {
+    console.log(messageAttachments);
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
