@@ -24,7 +24,7 @@ var client = new Client({
   'apiSecret': 'API SECRET'
 });
 
-currencyCode = 'USD';
+var currencyCode = 'USD';
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
