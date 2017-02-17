@@ -16,7 +16,9 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request')
+  request = require('request'),
+  autocorrect = require('autocorrect')(),
+  changeCase = require('change-case')
 
 var Client = require('coinbase').Client;
 var client = new Client({
@@ -266,9 +268,14 @@ function receivedMessage(event) {
     switch (messageText) {
 
       case 'onboard':
-        var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n Briefing: a real-time summary of data, courtesy of Coinbase. \n Buttons: click to view '
+        var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view '
         sendTextMessage(senderID, msg);
         break;
+
+      case 'nboard':
+          var msg = "Did you mean... " + autocorrect('nboard') + "?"
+          sendTextMessage(senderID, msg);
+          break;
 
       case 'image':
         sendImageMessage(senderID);

@@ -15,7 +15,10 @@
   "author": "Facebook",
   "license": "ISC",
   "dependencies": {
+    "autocorrect": "^1.2.0",
     "body-parser": "^1.15.0",
+    "capitalize": "^1.0.0",
+    "change-case": "^3.0.1",
     "coinbase": "^2.0.6",
     "config": "^1.20.4",
     "ejs": "^2.4.2",
