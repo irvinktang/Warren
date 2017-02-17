@@ -1308,7 +1308,7 @@ function setGreetingText() {
     "thread_state":"new_thread",
     "greeting": {
       text: "Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please hit 'Get Started'."
-    }
+    },
     "call_to_actions":[
       {
         "payload":"USER_DEFINED_PAYLOAD"
