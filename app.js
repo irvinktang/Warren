@@ -345,18 +345,12 @@ function receivedMessage(event) {
             var buy = price.data.amount;
             client.getTime(function(err, time) {
               var time = time.data.iso;
-
-
               var msg = 'Current pricing information as of ' + time + ':' + '\n' +
                 'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
               sendTextMessage(senderID, msg);
-
-
             })
           })
         })
-
-        // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
       });
       break;
 
@@ -481,7 +475,7 @@ function sendImageMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/rift.png"
+          url: "https://bitcoincharts.com/charts/bitstampUSD#rg60ztgSzm1g10zm2g25zv"
         }
       }
     }
