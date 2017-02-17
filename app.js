@@ -519,15 +519,17 @@ function sendFileMessage(recipientId) {
 
 /*
  * Send a text message using the Send API.
- *
+ * OK THIS IS IMPORTANT!
  */
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function sendTextMessage(recipientId, messageText) {
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: 'hello',
+      // text: messageText,
+      text: 'irvin',
       metadata: "DEVELOPER_DEFINED_METADATA"
     }
   };
