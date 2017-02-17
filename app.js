@@ -32,7 +32,7 @@ var client = new Client({
 
 var User = require('./models/user').User;
 var Nuance = require('nuance');
-var nuance = new Nuance(appID, appKey);
+var nuance = new Nuance('appID', 'appKey');
 
 mongoose.connection.on('connected', function() {
   console.log('Success: connected to MongoDb!');
