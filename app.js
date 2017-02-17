@@ -19,7 +19,6 @@ const
   request = require('request');
 
 var app = express();
-var request = require('request');
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
