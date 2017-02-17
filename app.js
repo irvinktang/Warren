@@ -293,7 +293,7 @@ function receivedMessage(event) {
         break;
 
       case 'lol':
-        var getRandomJoke = oneLinkerJoke.getRandomJoke();
+        var getRandomJoke = oneLinerJoke.getRandomJoke();
         sendTextMessage(senderID, getRandomJoke);
 
       case 'video':
