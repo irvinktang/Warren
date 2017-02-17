@@ -31,6 +31,8 @@ var client = new Client({
 });
 
 var User = require('./models/user').User;
+var Nuance = require('nuance');
+var nuance = new Nuance(appID, appKey);
 
 mongoose.connection.on('connected', function() {
   console.log('Success: connected to MongoDb!');
@@ -249,6 +251,7 @@ function receivedMessage(event) {
   var message = event.message;
 
   // initial save of user information if he doesnt exist already
+  var myUser;
   User.findOne({userId: senderID}, function(err, foundUser) {
     if(!foundUser) {
       var user = new User({
@@ -256,8 +259,10 @@ function receivedMessage(event) {
         preferredExchange: [],
         preferredTime: ''
       }).save();
+      myUser = user;
     } else {
       console.log('FOUND A USER');
+      myUser = foundUser;
     }
   })
 
@@ -281,6 +286,7 @@ function receivedMessage(event) {
     console.log("Received echo for message %s and app %d with metadata %s",
     messageId, appId, metadata);
     return;
+
   } else if (quickReply) {
       var quickReplyPayload = quickReply.payload;
       console.log("Quick reply for message %s with payload %s",
@@ -330,9 +336,7 @@ function receivedMessage(event) {
       }
       // sendTextMessage(senderID, "Quick reply tapped");
       return;
-  }
-
-  if (messageText) {
+  } else if (messageText) {
 
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
@@ -398,6 +402,24 @@ function receivedMessage(event) {
         var msg = "These are all your options:";
         sendTextMessage(senderID, msg);
         break;
+
+      case 'text to speech':
+      nuance.sendTTSRequest({
+    "text": "hello world", //The text you would like to convert to speech.
+    "output": "testFile.wav", //The output file.
+    "outputFormat": "wav", //The codec you would like to use.
+    "language": "en_US", //The language code (please refer to Nuance's documentation for more info).
+    "voice": "Tom", //The voice you would like to use (please refer to Nuance's documentation for more info).
+    "identifier": "randomIdentifierStringHere", //The user identifier (please refer to Nuance's documentation for more info).
+    "success": function(){ //The success callback function.
+        console.log("The file was saved.");
+    },
+    "error": function(response){ //The error callback function - returns the response from Nuance that you can debug.
+        console.log("An error was occurred");
+        console.log(response);
+    }
+});
+break;
 
       case 'add menu':
         addPersistentMenu();
