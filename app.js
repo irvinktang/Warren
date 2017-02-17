@@ -300,9 +300,9 @@ function receivedMessage(event) {
       var quickReplyPayload = quickReply.payload;
       console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
-      if(quickReplyPayload === 'poloniex') {
+      if(quickReplyPayload === 'bitstamp') {
         var arr = [];
-        arr.push('poloniex');
+        arr.push('bitstamp');
         User.findOneAndUpdate({userId: senderID}, {preferredExchange: arr}, function(err, foundUser) {
           console.log(foundUser);
         })
@@ -314,8 +314,9 @@ function receivedMessage(event) {
           console.log(foundUser);
         })
         return sendTextMessage(senderID, 'Saved.');
-      } else if(quickReplyPayload === 'otherExchange') {
-        return sendTextMessage(senderID, "Hmmmm idk what to do then b");
+      }
+      // else if(quickReplyPayload === 'otherExchange') {
+      //   return sendTextMessage(senderID, "Hmmmm idk what to do then b");
 
         // ROUTING PURPOSES
       } else if(quickReplyPayload === 'exchange'){
@@ -1163,8 +1164,8 @@ function exchangeReply(recipientId) {
       quick_replies: [
         {
           "content_type":"text",
-          "title":"Poloniex",
-          "payload":"poloniex"
+          "title":"Bitstamp",
+          "payload":"bitstamp"
         },
         {
           "content_type":"text",
