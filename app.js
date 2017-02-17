@@ -668,6 +668,9 @@ function sendCorrectMsg(recipientId, msg, incorrectText) {
     recipient: {
       id: recipientId
     },
+    sender: {
+      id: 'dummy'
+    },
     originalText: {
       text: incorrectText
     },
