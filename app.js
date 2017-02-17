@@ -402,7 +402,7 @@ function receivedMessage(event) {
       break;
 
       case 'onboard': // deprecated because of "getting started" button
-      var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
+      var msg = 'Briefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
       sendTextMessage(senderID, msg);
       break;
 
@@ -540,7 +540,8 @@ function receivedPostback(event) {
     });
   } else if(payload === 'gettingStarted') {
     // COPY CASE MENU
-    return sendTextMessage(senderID, "Hello");
+    var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \n"
+    return sendTextMessage(senderID, msg);
   } else if (payload === "Sell_Price"){
     client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
@@ -829,17 +830,17 @@ function sendGenericMessage(recipientId) {
             buttons: [{
               type: "web_url",
               url: "https://www.bitstamp.net/market/tradeview/",
-              title: "Open Web URL"
+              title: "View Charts"
             }],
           }, {
             title: "Coinbase",
             subtitle: "BTC-USD",
             item_url: "https://www.coinbase.com/charts?locale=en",
-            image_url: 'https://www.coinbase.com/assets/press/coinbase-logos/coinbase.png',
+            image_url: 'https://s3.amazonaws.com/bittrust/coinbase_logo_white.png',
             buttons: [{
               type: "web_url",
               url: "https://www.coinbase.com/charts?locale=en",
-              title: "Open Web URL"
+              title: "View Charts"
             }]
           }]
         }
