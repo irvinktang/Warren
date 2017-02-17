@@ -354,9 +354,9 @@ function receivedMessage(event) {
       //   sendGifMessage(senderID);
       //   break;
       //
-      // case 'audio':
-      //   sendAudioMessage(senderID);
-      //   break;
+      case 'audio':
+        sendAudioMessage(senderID);
+        break;
       //
       // case 'video':
       //   sendVideoMessage(senderID);
