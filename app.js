@@ -462,30 +462,31 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
-      case 'briefing':
-      weather.find({search: 'San Francisco, CA', degreeType: 'F'}, function(err, realWeather) {
-        var myWeather = JSON.stringify(realWeather);
-        var currentTemp = myWeather.current.temperature;
-      });
-      var now = new Date();
-      var currentTime = dateFormat(now, "h:MM:ss TT");
-      var currentDate = dateFormat(now, "dddd, mmmm dS, yyyy");
-      client.getSpotPrice({'currency': 'USD'}, function(err, price) {
-        var spot = price.data.amount;
-        client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-          var sell = price.data.amount;
-          client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-            var buy = price.data.amount;
-            client.getTime(function(err, time) {
-              var time = time.data.iso;
-              var msg = 'Weather: ' + currentTemp + '\nDate: ' + currentDate + '\nTime: ' + currentTime + '\nCurrent pricing information as of ' + time + ':' + '\n' +
-              'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n Source: Coinbase';
-              sendTextMessage(senderID, msg);
+        case 'briefing':
+        weather.find({search: 'San Francisco, CA', degreeType: 'F'}, function(err, realWeather) {
+          var myWeather = JSON.stringify(realWeather);
+          var currentTemp = myWeather.current.temperature;
+          // });
+          var now = new Date();
+          var currentTime = dateFormat(now, "h:MM:ss TT");
+          var currentDate = dateFormat(now, "dddd, mmmm dS, yyyy");
+          client.getSpotPrice({'currency': 'USD'}, function(err, price) {
+            var spot = price.data.amount;
+            client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+              var sell = price.data.amount;
+              client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+                var buy = price.data.amount;
+                client.getTime(function(err, time) {
+                  var time = time.data.iso;
+                  var msg = 'Weather: ' + currentTemp + '\nDate: ' + currentDate + '\nTime: ' + currentTime + '\nCurrent pricing information as of ' + time + ':' + '\n' +
+                  'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n Source: Coinbase';
+                  sendTextMessage(senderID, msg);
+                })
+              })
             })
-          })
-        })
-      });
-      break;
+          });
+        });
+        break;
       // case messageText:
       //     var msg = "Did you mean... " + autocorrect(messageText) +
       //     sendCorrectMsg(senderID, msg, messageText);
