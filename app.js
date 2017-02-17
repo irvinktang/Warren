@@ -268,7 +268,8 @@ function receivedMessage(event) {
       console.log(myUser);
     }
   })
-
+  console.log('outside!')
+  console.log(myUser);;
   var myCurrency = myUser.preferredExchange[0];
   var myTime = myUser.preferredTime;
 
