@@ -264,6 +264,10 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     switch (messageText) {
+
+      case 'onboard':
+        var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n Briefing: a real-time summary of data, courtesy of Coinbase. \n Buttons: click to view '
+
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -324,19 +328,7 @@ function receivedMessage(event) {
         sendButtonMessage(senderID);
         break;
 
-      // case 'right now rate':
-      //   request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
-      //     if (!error && response.statusCode == 200) {
-      //       var someText = JSON.stringify(body);
-      //       console.log('someText : ', someText)
-      //       var myText = someText['bpi'];
-      //       console.log(myText);
-      //       sendTextMessage(senderID, myText);
-      //     }
-      //   })
-      //   break;
-
-      case 'current rate':
+      case 'briefing':
       client.getSpotPrice({'currency': 'USD'}, function(err, price) {
         var spot = price.data.amount;
         client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
@@ -353,17 +345,6 @@ function receivedMessage(event) {
         })
       });
       break;
-
-      case 'brief':
-      client.getSpotPrice({'currency': 'USD'}, function(err, price) {
-        sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount);
-        // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
-      });
-      break;
-
-      case 'right now date':
-        sendTextMessage(senderID, Date.now());
-        break;
 
         default:
         sendTextMessage(senderID, 'Sorry, I could not recognize that command.');
@@ -924,7 +905,7 @@ function setGreetingText() {
 // certificate authority.
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
-  setGreetingText();
+  setGreetingText() ;
 });
 
 module.exports = app;
