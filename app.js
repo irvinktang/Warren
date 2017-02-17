@@ -106,7 +106,7 @@ app.get('/postaudio', function(req, res){
         'languageCode': 'en-US'
       },
       'audio': {
-        'uri':'https://cdn.fbsbx.com/v/t59.3654-21/15659141_10212710443139227_531252545021018112_n.mp4/audioclip-1487359152000-2396.mp4?oh=afd4180b0e8da076250c3925b17e1469&oe=58A8EAF3'
+        'uri':'http://bshre.co/spmz'
       }
     }
   },  function (error, response, body) {
