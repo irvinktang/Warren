@@ -392,9 +392,6 @@ function receivedMessage(event) {
 
 
 
-
-
-
       // default:
       //   sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. You may have meant " + " '" autocorrect(messageText) + "'" + ".");
     }
