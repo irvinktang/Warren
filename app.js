@@ -345,9 +345,13 @@ function receivedMessage(event) {
             var buy = price.data.amount;
             client.getTime(function(err, time) {
               var time = time.data.iso;
+
+
               var msg = 'Current pricing information as of ' + time + ':' + '\n' +
                 'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
               sendTextMessage(senderID, msg);
+
+
             })
           })
         })
