@@ -431,7 +431,6 @@ function receivedPostback(event) {
         receivedMessage(msg)
       } else if (payload === "no") {
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
-        break;
       }
     }
 
