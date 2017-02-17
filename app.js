@@ -254,7 +254,6 @@ function receivedMessage(event) {
   var message = event.message;
 
   // initial save of user information if he doesnt exist already
-  var myUser;
   User.findOne({userId: senderID}, function(err, foundUser) {
     if(!foundUser) {
       var user = new User({
@@ -262,10 +261,10 @@ function receivedMessage(event) {
         preferredExchange: [],
         preferredTime: ''
       }).save();
-      myUser = user;
+      var myUser = user;
     } else {
       console.log('FOUND A USER');
-      myUser = foundUser;
+      var myUser = foundUser;
     }
   })
 
