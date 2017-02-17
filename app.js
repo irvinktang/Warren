@@ -912,8 +912,7 @@ function setGreetingText() {
   var greetingData = {
     setting_type: "greeting",
     greeting:{
-      text:"Hi {{user_first_name}}!" + '\n' +
-      "Welcome to our onboarding process. To begin, please type 'onboard'."
+      text:"Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please type 'onboard'."
     }
   };
   createGreetingApi(greetingData);
