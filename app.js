@@ -310,8 +310,12 @@ function receivedMessage(event) {
         sendAccountLinking(senderID);
         break;
 
-      case 'something':
+      case 'BITCOIN':
         sendTextMessage(senderID, 'something else');
+        break;
+
+      case 'right now date':
+        sendTextMessage(senderID, Date.now());
         break;
 
       default:
