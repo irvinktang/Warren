@@ -787,7 +787,7 @@ function sendAudioMessage(recipientId) {
       attachment: {
         type: "audio",
         payload: {
-          url: SERVER_URL + "/assets/sample.mp3"
+          url: "http://www.fromtexttospeech.com/output/0714078001487351330/21101657.mp3"
         }
       }
     }
