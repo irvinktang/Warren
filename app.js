@@ -101,8 +101,8 @@ app.get('/postaudio', function(req, res){
   request.post('https://speech.googleapis.com/v1beta1/speech:syncrecognize',{
     json:{
       'config': {
-        'encoding':'FLAC',
-        'sampleRate': 16000,
+        // 'encoding':'FLAC',
+        // 'sampleRate': 16000,
         'languageCode': 'en-US'
       },
       'audio': {
@@ -111,8 +111,14 @@ app.get('/postaudio', function(req, res){
     }
   },  function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      res.json(body) //
-    } else res.json(error);
+      res.json({
+        body: body,
+        comment: 'there was no error'
+      }) //
+    } else res.json({
+      error: error,
+      comment: 'there was an error'
+    });
   })
 })
 
