@@ -414,7 +414,10 @@ function receivedPostback(event) {
   // button for Structured Messages.
   var payload = event.postback.payload;
 
-  /// CUSTOM
+  /// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
+
+
+
     if(event.originalText.text) {
       var incorrectText = event.originalText.text;
       var correctText = event.correctText.correct;
@@ -433,7 +436,7 @@ function receivedPostback(event) {
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
       }
     }
-  /// CUSTOM
+  /// CUSTOM HAHAHA
 
 
   console.log("Received postback for user %d and page %d with payload '%s' " +
