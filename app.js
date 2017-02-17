@@ -113,11 +113,13 @@ app.get('/postaudio', function(req, res){
     if (!error && response.statusCode == 200) {
       res.json({
         body: body,
-        comment: 'there was no error'
+        comment: 'there was no error',
+        status code: response.statusCode
       }) //
     } else res.json({
       error: error,
-      comment: 'there was an error'
+      comment: 'there was an error',
+      status code: response.statusCode
     });
   })
 })
