@@ -321,7 +321,9 @@ function receivedMessage(event) {
       case 'right now rate':
         request('http://api.coindesk.com/v1/bpi/currentprice.json', function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            var myText = body['bpi'];
+            var someText = JSON.stringify(body);
+            console.log('someText : ', someText)
+            var myText = someText['bpi'];
             console.log(myText);
             sendTextMessage(senderID, myText);
           }
