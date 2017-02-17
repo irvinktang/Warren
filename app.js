@@ -365,7 +365,7 @@ function receivedMessage(event) {
 
       case messageText:
           var msg = "Did you mean... " + autocorrect(messageText) + "?"
-          sendCorrectMessage(senderID, msg, messageText);
+          sendCorrectMsg(senderID, msg, messageText);
           break;
 
         default:
