@@ -366,7 +366,7 @@ function receivedMessage(event) {
         break;
 
         default:
-        sendTextMessage(senderID, messageText);
+        sendTextMessage(senderID, 'Sorry, I could not recognize that command.');
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
@@ -908,13 +908,12 @@ function createGreetingApi(data) {
   });
 }
 
-
-
 function setGreetingText() {
   var greetingData = {
     setting_type: "greeting",
     greeting:{
-      text:"Hi {{user_first_name}}, welcome!"
+      text:"Hi {{user_first_name}}!" + '\n' +
+      "Welcome to our onboarding process. To begin, please type 'onboard'."
     }
   };
   createGreetingApi(greetingData);
