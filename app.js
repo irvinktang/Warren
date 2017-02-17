@@ -410,11 +410,14 @@ function receivedMessage(event) {
       //   break;
 
       case 'bitstamp':
-      request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
-        if (!error && response.statusCode == 200) {
-          console.log(body);
-        }
-      })
+        request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var msg = JSON.parse(body);
+            console.log(msg);
+            sendTextMessage(senderID, msg)
+          }
+        })
+        break;
 
       case 'menu':
         var msg = "These are all your options:";
@@ -1328,7 +1331,7 @@ function createGreetingApi(data) {
     if (!error && response.statusCode == 200) {
       console.log("Greeting set successfully!");
     } else {
-      console.error("Failed calling Thread Reference API", response.statusCode,     response.statusMessage, body.error);
+      console.error("Failed calling Thread Reference API", response.statusCode, response.statusMessage, body.error);
     }
   });
 }
@@ -1343,12 +1346,10 @@ function createGreetingApi(data) {
 //   createGreetingApi(greetingData);
 // }
 
-
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
 // certificate authority.
 app.listen(app.get('port'), function() {
-
   console.log('Node app is running on port', app.get('port'));
   setGreetingText() ;
 });
