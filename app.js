@@ -470,7 +470,7 @@ function receivedMessage(event) {
           var currentTemp = myWeather[0].current.temperature;
           // });
           var now = new Date();
-          var currentTime = dateFormat(now, "h:MM:ss TT");
+          var currentTime = dateFormat(now, "PST:h:MM:ss TT");
           var currentDate = dateFormat(now, "dddd, mmmm dS, yyyy");
           client.getSpotPrice({'currency': 'USD'}, function(err, price) {
             var spot = price.data.amount;
@@ -480,8 +480,8 @@ function receivedMessage(event) {
                 var buy = price.data.amount;
                 client.getTime(function(err, time) {
                   var time = time.data.iso;
-                  var msg = 'Weather: ' + currentTemp + '\nDate: ' + currentDate + '\nTime: ' + currentTime + '\nCurrent pricing information as of ' + time + ':' + '\n' +
-                  'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n Source: Coinbase';
+                  var msg = 'Weather in San Francisco: ' + currentTemp + ' F' + '\nDate: ' + currentDate + '\nTime: ' + currentTime + '\n\nCurrent pricing information:' + '\n' +
+                  'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\nSource: Coinbase';
                   sendTextMessage(senderID, msg);
                 })
               })
