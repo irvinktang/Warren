@@ -26,8 +26,6 @@ var client = new Client({
   'apiSecret': 'API SECRET'
 });
 
-var currencyCode = 'USD';
-
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -341,7 +339,7 @@ function receivedMessage(event) {
       //   break;
 
       case 'right now date':
-      client.getSpotPrice({'currency': currencyCode}, function(err, price) {
+      client.getSpotPrice({'currency': 'USD'}, function(err, price) {
         sendTextMessage(senderID, 'Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
         // console.log('Current bitcoin price in ' + currencyCode + ': ' +  price.data.amount);
       });
