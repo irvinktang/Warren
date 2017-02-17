@@ -363,10 +363,10 @@ function receivedMessage(event) {
       });
       break;
 
-      case messageText:
-          var msg = "Did you mean... " + autocorrect(messageText) + "?"
-          sendCorrectMsg(senderID, msg, messageText);
-          break;
+      // case messageText:
+      //     var msg = "Did you mean... " + autocorrect(messageText) + "?"
+      //     sendCorrectMsg(senderID, msg, messageText);
+      //     break;
 
         default:
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'.");
@@ -429,31 +429,31 @@ function receivedPostback(event) {
 
 
 
-// ANOTHER CUSTOM FUNCTION THAT REPLICATES RECEIVED Postback
-/// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
-
-function gettingFrisky(event) {
-
-  if(event.originalText.text) {
-    var incorrectText = event.originalText.text;
-    var correctText = event.correctText.correct;
-    if(payload === "yes") {
-      var msg = {
-        recipient: {
-          id: recipientID
-        },
-        message: {
-          text: correctText,
-          metadata: "DEVELOPER_DEFINED_METADATA"
-        }
-      }
-      receivedMessage(msg)
-    } else if (payload === "no") {
-      sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
-    }
-  }
-/// CUSTOM HAHAHA
-}
+// // ANOTHER CUSTOM FUNCTION THAT REPLICATES RECEIVED Postback
+// /// CUSTOM TRYNA MAKE SOME CHANGES SO IT CAN FREAKING SYNC
+//
+// function gettingFrisky(event) {
+//
+//   if(event.originalText.text) {
+//     var incorrectText = event.originalText.text;
+//     var correctText = event.correctText.correct;
+//     if(event.message.attachment.payload. === "yes") {
+//       var msg = {
+//         recipient: {
+//           id: recipientID
+//         },
+//         message: {
+//           text: correctText,
+//           metadata: "DEVELOPER_DEFINED_METADATA"
+//         }
+//       }
+//       receivedMessage(msg)
+//     } else if (payload === "no") {
+//       sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + incorrectText + "'.");
+//     }
+//   }
+// /// CUSTOM HAHAHA
+// }
 
 
 
@@ -670,47 +670,43 @@ function sendButtonMessage(recipientId) {
 
 
 ///// CUSTOM
-
-
-
-
-function sendCorrectMsg(recipientId, msg, incorrectText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    sender: {
-      id: 'dummy'
-    },
-    originalText: {
-      text: incorrectText
-    },
-    correctText: {
-      correct: msg
-    },
-    timestamp: 'nothing',
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Did you mean... " + msg + "?",
-          buttons:[{
-            type: "postback",
-            title: "Yes",
-            payload: "yes"
-          }, {
-            type: "postback",
-            title: "No",
-            payload: "no"
-          }]
-        }
-      }
-    }
-  }
-  gettingFrisky(messageData);
-}
-//// CUSTOM
+// function sendCorrectMsg(recipientId, msg, incorrectText) {
+//   var messageData = {
+//     recipient: {
+//       id: recipientId
+//     },
+//     sender: {
+//       id: 'dummy'
+//     },
+//     originalText: {
+//       text: incorrectText
+//     },
+//     correctText: {
+//       correct: msg
+//     },
+//     timestamp: 'nothing',
+//     message: {
+//       attachment: {
+//         type: "template",
+//         payload: {
+//           template_type: "button",
+//           text: "Did you mean... " + msg + "?",
+//           buttons:[{
+//             type: "postback",
+//             title: "Yes",
+//             payload: "yes"
+//           }, {
+//             type: "postback",
+//             title: "No",
+//             payload: "no"
+//           }]
+//         }
+//       }
+//     }
+//   }
+//   gettingFrisky(messageData);
+// }
+// //// CUSTOM
 
 
 /*
