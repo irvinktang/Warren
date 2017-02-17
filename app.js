@@ -269,6 +269,9 @@ function receivedMessage(event) {
     }
   })
 
+  var myCurrency = myUser.preferredExchange[0];
+  var myTime = myUser.preferredTime;
+
 
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
@@ -354,9 +357,6 @@ function receivedMessage(event) {
       //   sendGifMessage(senderID);
       //   break;
       //
-      case 'audio':
-        sendAudioMessage(senderID);
-        break;
       //
       // case 'video':
       //   sendVideoMessage(senderID);
@@ -401,9 +401,20 @@ function receivedMessage(event) {
       //   sendButtonMessage(senderID);
       //   break;
 
+      case 'bitstamp':
+      request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(body);
+        }
+      })
+
       case 'menu':
         var msg = "These are all your options:";
         sendTextMessage(senderID, msg);
+        break;
+
+      case 'audio':
+        sendAudioMessage(senderID);
         break;
 
       case 'text to speech':
