@@ -614,7 +614,7 @@ function sendGifMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: giphy.com/embed/MP3997WgAntFm
+          url: "giphy.com/embed/MP3997WgAntFm"
         }
       }
     }
