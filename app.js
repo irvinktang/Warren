@@ -693,7 +693,7 @@ function sendCorrectMsg(recipientId, msg, incorrectText) {
       }
     }
   }
-  callSendAPI(messageData);
+  receivedPostback(messageData);
 }
 //// CUSTOM
 
