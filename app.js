@@ -409,11 +409,11 @@ function receivedMessage(event) {
       //   sendButtonMessage(senderID);
       //   break;
 
-      case 'bitstamp':
+      case 'ticker':
         request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
-            console.log(msg);
+            console.log("High: " + msg.high + "\n" + "Low: " + msg.low + "\n" + "Open: " + msg.open + "\n" + "source: bitstamp");
             sendTextMessage(senderID, msg)
           }
         })
