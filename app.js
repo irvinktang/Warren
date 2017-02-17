@@ -253,26 +253,26 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  // var myUser = {};
-  // // initial save of user information if he doesnt exist already
-  // User.findOne({userId: senderID}, function(err, foundUser) {
-  //   if(!foundUser) {
-  //     var user = new User({
-  //       userId: senderID,
-  //       preferredExchange: [],
-  //       preferredTime: ''
-  //     }).save();
-  //     myUser = user;
-  //   } else {
-  //     console.log('FOUND A USER');
-  //     myUser = foundUser;
-  //     console.log(myUser);
-  //   }
-  // })
-  // console.log('outside!')
-  // console.log(myUser);
-  // var myCurrency = myUser.preferredExchange[0];
-  // var myTime = myUser.preferredTime;
+  var myUser = {};
+  // initial save of user information if he doesnt exist already
+  User.findOne({userId: senderID}, function(err, foundUser) {
+    if(!foundUser) {
+      var user = new User({
+        userId: senderID,
+        preferredExchange: [],
+        preferredTime: ''
+      }).save();
+      myUser = user;
+    } else {
+      console.log('FOUND A USER; inside function');
+      myUser = foundUser;
+      console.log(myUser);
+    }
+  })
+  console.log('outside!')
+  console.log(myUser);
+  var myCurrency = myUser.preferredExchange[0];
+  var myTime = myUser.preferredTime;
 
 
   console.log("Received message for user %d and page %d at %d with message:",
@@ -416,29 +416,30 @@ function receivedMessage(event) {
       case 'menu':
         var msg = "These are all your options:";
         sendTextMessage(senderID, msg);
+        // send image too
         break;
 
       case 'audio':
         sendAudioMessage(senderID);
         break;
 
-      case 'text to speech':
-      nuance.sendTTSRequest({
-    "text": "hello world", //The text you would like to convert to speech.
-    "output": "testFile.wav", //The output file.
-    "outputFormat": "wav", //The codec you would like to use.
-    "language": "en_US", //The language code (please refer to Nuance's documentation for more info).
-    "voice": "Tom", //The voice you would like to use (please refer to Nuance's documentation for more info).
-    "identifier": "randomIdentifierStringHere", //The user identifier (please refer to Nuance's documentation for more info).
-    "success": function(){ //The success callback function.
-        console.log("The file was saved.");
-    },
-    "error": function(response){ //The error callback function - returns the response from Nuance that you can debug.
-        console.log("An error was occurred");
-        console.log(response);
-    }
-});
-break;
+//       case 'text to speech':
+//       nuance.sendTTSRequest({
+//     "text": "hello world", //The text you would like to convert to speech.
+//     "output": "testFile.wav", //The output file.
+//     "outputFormat": "wav", //The codec you would like to use.
+//     "language": "en_US", //The language code (please refer to Nuance's documentation for more info).
+//     "voice": "Tom", //The voice you would like to use (please refer to Nuance's documentation for more info).
+//     "identifier": "randomIdentifierStringHere", //The user identifier (please refer to Nuance's documentation for more info).
+//     "success": function(){ //The success callback function.
+//         console.log("The file was saved.");
+//     },
+//     "error": function(response){ //The error callback function - returns the response from Nuance that you can debug.
+//         console.log("An error was occurred");
+//         console.log(response);
+//     }
+// });
+// break;
 
       case 'add menu':
         addPersistentMenu();
@@ -458,8 +459,8 @@ break;
         sendGifMessage(senderID);
         break;
 
-      case 'onboard':
-        var msg = 'Thanks for checking out Botty, yourpersonal crypto-plug. We have a plethora of featuresin store for you. \n \nBriefing: a real-time summaryof data, courtesy of Coinbase. \nButtons: click toview BLAH BLAH'
+      case 'onboard': // deprecated because of "getting started" button
+        var msg = 'Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
         sendTextMessage(senderID, msg);
         break;
 
@@ -599,6 +600,7 @@ function receivedPostback(event) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
   } else if(payload === 'gettingStarted') {
+    // COPY CASE MENU
     return sendTextMessage(senderID, "Hello");
   } else if (payload === "Sell_Price"){
     return client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
@@ -1306,7 +1308,7 @@ function setGreetingText() {
     "setting_type":"call_to_actions",
     "thread_state":"new_thread",
     "greeting": {
-      text: "Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please hit 'Get Started'."
+      text: "Hi {{user_first_name}}! \n Welcome to our onboarding process. To begin, please hit 'Get Started'." // this part is overwritten by fb
     },
     "call_to_actions":[
       {
@@ -1340,7 +1342,7 @@ function createGreetingApi(data) {
 //     }
 //   };
 //   createGreetingApi(greetingData);
-// }
+// // }
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid
