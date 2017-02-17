@@ -466,6 +466,10 @@ function receivedAccountLink(event) {
  * Send an image using the Send API.
  *
  */
+
+ // RANDOM TEXT HERE TO MAKE A CHANGE
+
+
 function sendImageMessage(recipientId) {
   var messageData = {
     recipient: {
