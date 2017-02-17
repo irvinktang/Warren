@@ -514,6 +514,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "Sorry, I could not recognize the command " + "'" + messageText + "'. Please try again, or type 'menu' to review your options.");
     }
   } else if (messageAttachments) {
+    console.log('YOOOOOOO BRO')
     console.log(messageAttachments);
     sendTextMessage(senderID, "Message with attachment received");
   }
