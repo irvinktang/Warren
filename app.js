@@ -402,7 +402,25 @@ function receivedMessage(event) {
       break;
 
       case 'onboard': // deprecated because of "getting started" button
-      var msg = 'Briefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
+      var msg = 'At any time, you may type 'menu' to get a complete list of functions. Briefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH'
+      sendTextMessage(senderID, msg);
+      break;
+
+      case 'best buy':
+      client.getBuyPrice({'currencyPair': 'BTC-USD'},function(err, coinPrice) {
+        request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var msg = JSON.parse(body);
+            if()
+            var newMsg="We would recommend " + msg.bid > coinPrice ? coinPrice : msg.bid ".\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice;
+            sendTextMessage(senderID, newMsg);
+          }
+        })
+      });
+      break;
+
+      case 'best sell':
+      var msg = "Coinbase: Bitstamp:"
       sendTextMessage(senderID, msg);
       break;
 
@@ -540,7 +558,7 @@ function receivedPostback(event) {
     });
   } else if(payload === 'gettingStarted') {
     // COPY CASE MENU
-    var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. \n \n"
+    var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
     return sendTextMessage(senderID, msg);
   } else if (payload === "Sell_Price"){
     client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
