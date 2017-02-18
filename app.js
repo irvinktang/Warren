@@ -525,6 +525,7 @@ function addPersistentMenu(){
     method: 'POST',
     json:{
       setting_type : "call_to_actions",
+      title: "Toolbar",
       thread_state : "existing_thread",
       call_to_actions:[
         {
@@ -534,8 +535,13 @@ function addPersistentMenu(){
         },
         {
           type:"postback",
-          title:"Quick Summary",
+          title:"Quick Look",
           payload:"quick"
+        },
+        {
+          type:"postback",
+          title:"I\'m bored",
+          payload:"joke"
         }
       ]
     }
@@ -605,6 +611,9 @@ function receivedPostback(event) {
     client.getSpotPrice({'currency': 'usd'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount)
     });
+  } else if (payload === "joke"){
+    var getRandomJoke = oneLinerJoke.getRandomJoke();
+    return sendTextMessage(senderID, getRandomJoke.body);
   } else if (payload === "menu"){
     var msg = "You have the following options: "
     return sendTextMessage(senderID, msg)
@@ -617,8 +626,8 @@ function receivedPostback(event) {
           var buy = price.data.amount;
           client.getTime(function(err, time) {
             var time = time.data.iso;
-            var msg = 'Current pricing information as of ' + time + ':' + '\n' +
-            'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot;
+            var msg = 'Real-time pricing information:' + '\n\n' +
+            'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n\nSource: Coinbase';
             return sendTextMessage(senderID, msg);
           })
         })
