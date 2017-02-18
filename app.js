@@ -747,7 +747,7 @@ function receivedPostback(event) {
           }
           })
       },10000);
-    };
+    }
 
 
 
