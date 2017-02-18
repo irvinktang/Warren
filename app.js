@@ -897,7 +897,7 @@ function sendGenericMessage(recipientId) {
             image_url: 'https://s3.amazonaws.com/bittrust/coinbase_logo_white.png',
             buttons: [{
               type: "web_url",
-              url: "https://www.coinbase.com/charts?locale=en",
+              url: "http://btc-times.com/wp-content/uploads/2017/01/Coinbase.jpg",
               title: "View Charts"
             }]
           }]
