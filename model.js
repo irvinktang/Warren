@@ -13,6 +13,6 @@ var UserSchema = new mongoose.Schema({
   refresh_token: String
 })
 
-var User = mongoose.model('User', UserSchema)
+var coinbaseUser = mongoose.model('coinbaseUser', UserSchema)
 
-module.exports = User;
+module.exports = coinbaseUser;
