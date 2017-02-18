@@ -357,7 +357,6 @@ function receivedMessage(event) {
         preferredExchange: [],
         preferredTime: ''
       }).save();
-      myUser = user;
     }
   })
   // console.log('outside!')
