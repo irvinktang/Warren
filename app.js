@@ -35,6 +35,9 @@ var weather = require('weather-js');
 
 var google_speech = require('google-speech');
 var User = require('./models/user').User;
+
+var coinbaseUser = require('./model');
+
 var Nuance = require('nuance');
 var nuance = new Nuance('appID', 'appKey');
 
@@ -84,6 +87,78 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
   process.exit(1);
 }
+
+
+// COINBASE CRAPPPPPP
+app.get('/coinbaseCallback', function(req,res){
+
+  var postUrl = 'https://api.coinbase.com/oauth/token';
+  console.log(postUrl);
+  if (req.query.code){
+    request.post(postUrl,
+      {
+        form:
+        {
+          grant_type:'authorization_code',
+          code:req.query.code,
+          client_id:'454e9a873a168d46478042302664030a9eb8265d94c7c0483a8421655327cce2',
+          client_secret: 'c8bbea96050e7eb23f8577f36adacd2dc6e259e49704abbab54c3fbabbe9859a',
+          redirect_uri: 'https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id='+req.query.id
+        },
+        json: true
+      },
+      function(err, httpResponse, body){
+        console.log(body);
+        var token = body.access_token;
+        var refresh = body.refresh_token;
+
+        coinbaseUser.findOne({recipientId: req.query.id}, function(err,foundUser){
+          if (err) {
+            console.log('1');
+            res.send(err)
+          } else if (!foundUser) {
+            var newUser = new coinbaseUser({recipientId: req.query.id, access_token: token, refresh_token: refresh});
+            newUser.save(function(err){
+              if (err){
+                console.log ('2');
+                res.send(err)
+              } else {
+                res.send(body);
+              }
+            })
+          } else {
+            if (foundUser.access_token === token && foundUser.refresh_token === refresh) {
+              res.send(body);
+            } else {
+              foundUser.access_token = token;
+              foundUser.refresh_token = refresh;
+              foundUser.save(function(err) {
+                if (err){
+                  console.log ('2');
+                  res.send(err)
+                } else {
+                  res.send(body);
+                }
+              })
+            }
+          }
+        })
+        // User.findOrCreate({recipientId: req.query.id, access_token:body.access_token, refresh_token:body.refresh_token}, function (err, user) {
+        //   if (err) {
+        //     res.sendStatus(500).json(err);
+        //   } else {
+        //     res.send(body)
+        //   }
+        // });
+      }
+    );
+  }
+})
+
+
+
+
+
 
 /*
 * Use your own validation token. Check that the token used in the Webhook
@@ -382,6 +457,10 @@ function receivedMessage(event) {
       // send image too
       break;
 
+      case 'auth':
+      authorizeCoinbase(senderID);
+      break;
+
       case 'audio':
       sendAudioMessage(senderID);
       break;
@@ -555,6 +634,37 @@ function addPersistentMenu(){
     }
   })
 }
+
+
+// COINBASE function
+function authorizeCoinbase(recipientId) {
+  console.log(recipientId)
+  console.log(typeof recipientId)
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "This is test text",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=454e9a873a168d46478042302664030a9eb8265d94c7c0483a8421655327cce2&redirect_uri=" + encodeURIComponent("https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id="+recipientId),
+            title: "Authorize coinbase"
+          }]
+        }
+      }
+    }
+  };
+  callSendAPI(messageData);
+}
+
+
+
+
 /*
 * Delivery Confirmation Event
 *
