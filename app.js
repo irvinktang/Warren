@@ -34,9 +34,7 @@ var dateFormat = require('dateformat');
 var weather = require('weather-js');
 
 var google_speech = require('google-speech');
-var User = require('./models/user').User;
 
-var coinbaseUser = require('./model');
 
 var Nuance = require('nuance');
 var nuance = new Nuance('appID', 'appKey');
@@ -49,6 +47,10 @@ mongoose.connection.on('error', function() {
   process.exit(1);
 });
 mongoose.connect(process.env.MONGODB_URI);
+
+var User = require('./models/user').User;
+
+var coinbaseUser = require('./model');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
