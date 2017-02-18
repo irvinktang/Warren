@@ -29,6 +29,7 @@
     "nuance": "^1.1.1",
     "one-liner-joke": "^1.0.0",
     "request": "^2.72.0",
+    "underscore": "^1.8.3",
     "weather-js": "^1.0.2"
   },
   "engines": {

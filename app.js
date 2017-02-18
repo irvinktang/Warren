@@ -19,6 +19,7 @@ request = require('request'),
 oneLinerJoke = require('one-liner-joke'),
 changeCase = require('change-case'),
 mongoose = require('mongoose'),
+_ = require('underscore'),
 words = ['onboard'],
 autocorrect = require('autocorrect')({words: words})
 
@@ -27,6 +28,13 @@ var client = new Client({
   'apiKey': 'API KEY',
   'apiSecret': 'API SECRET'
 });
+
+var marketData;
+var currencies;
+var currencyName;
+var currentPrice;
+var newPrice;
+var currency_code = 'USD';
 
 var dateFormat = require('dateformat');
 // var time = require('time');
@@ -379,6 +387,9 @@ function receivedMessage(event) {
     console.log("Received echo for message %s and app %d with metadata %s",
     messageId, appId, metadata);
     return;
+
+
+
   } else if (quickReply) {
     var quickReplyPayload = quickReply.payload;
     console.log("Quick reply for message %s with payload %s",
@@ -430,7 +441,18 @@ function receivedMessage(event) {
       // // sendTextMessage(senderID, "Quick reply tapped");
       // return;
     }
-  } else if (messageText) {
+  }
+
+  var check = _.some(currencies.data, function(currency) {
+      currencyName = currency.name
+      return currency.id === messageText;
+    });
+    if(check){
+      currency_code = messageText;
+      sendTextMessage(senderID, `Currency set to ${currencyName}`);
+    }
+
+  else if (messageText) {
     console.log('inside message text')
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
@@ -505,7 +527,7 @@ function receivedMessage(event) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
             var pick = (msg.bid > coinPrice.data.amount ? "Coinbase" : "Bitstamp")
-            var newMsg="We would recommend buying from " + pick + ".\n\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice.data.amount;
+            var newMsg="I would recommend buying from " + pick + ".\n\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice.data.amount;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -518,7 +540,7 @@ function receivedMessage(event) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
             var pick = (msg.ask > coinPrice.data.amount ? "Bitstamp" : "Coinbase")
-            var newMsg="We would recommend selling on " + pick + ".\n\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice.data.amount;
+            var newMsg="I would recommend selling on " + pick + ".\n\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice.data.amount;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -561,11 +583,11 @@ function receivedMessage(event) {
           var now = new Date();
           // var currentTime = dateFormat(now, "h:MM:ss TT");
           var currentDate = dateFormat(now, "dddd, mmmm dS, yyyy");
-          client.getSpotPrice({'currency': 'USD'}, function(err, price) {
+          client.getSpotPrice({'currency': currency_code}, function(err, price) {
             var spot = price.data.amount;
-            client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+            client.getSellPrice({'currencyPair': `BTC-${currency_code}`}, function(err, price) {
               var sell = price.data.amount;
-              client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
+              client.getBuyPrice({'currencyPair': `BTC-${currency_code}`}, function(err, price) {
                 var buy = price.data.amount;
                 client.getTime(function(err, time) {
                   var time = time.data.iso;
@@ -704,11 +726,37 @@ function receivedPostback(event) {
     client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
     });
-  } else if(payload === 'gettingStarted') {
-    // COPY CASE MENU
+  }
+
+  else if(payload === 'gettingStarted'){
     var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
     return sendTextMessage(senderID, msg);
-  } else if (payload === "Sell_Price"){
+      setInterval(function(){
+        client.getSpotPrice({'currency': currency_code}, function(err, price) {
+          // console.log('Current bitcoin price in ' + currency_code + ': ' +  price.data.amount);
+          newPrice = price.data.amount;
+          var percentChange = (((currentPrice - newPrice)/currentPrice)*100).toFixed(3);
+          if(percentChange < -0.001) {
+            percentChange = Math.abs(percentChange);
+            sendTextMessage(senderID, `[PRICE WATCH]: ${percentChange}% increase in price \nCurrent Price: ${newPrice}`)
+            currentPrice = newPrice
+          } else if (percentChange > 0.001) {
+            percentChange = Math.abs(percentChange);
+            sendTextMessage(senderID, `[PRICE WATCH]: ${percentChange}% decrease in price \nCurrent Price: ${newPrice}`)
+            currentPrice = newPrice
+          }
+          })
+      },10000);
+    };
+
+
+  // else if(payload === 'gettingStarted') {
+  //   // COPY CASE MENU
+  //   var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
+  //   return sendTextMessage(senderID, msg);
+
+
+   else if (payload === "Sell_Price"){
     client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
     });
@@ -1355,7 +1403,20 @@ function setGreetingText() {
   // certificate authority.
   app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
-    setGreetingText() ;
+    setGreetingText();
+
+    request('https://api.coinbase.com/v2/currencies', function(err,res,body){
+      if(!err && res.statusCode === 200) {
+        currencies = JSON.parse(body);
+      }
+    })
+
+    client.getSpotPrice({'currency': currency_code}, function(err, price) {
+      currentPrice = price.data.amount;
+    });
+
   });
+
+
 
   module.exports = app;
