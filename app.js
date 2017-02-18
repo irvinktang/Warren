@@ -469,7 +469,7 @@ function receivedMessage(event) {
       break;
 
       case 'menu':
-      var msg = "These are all your options:";
+      var msg = "These are all your options: audio, auth, best buy, best sell, bit buttons, bitcoin, briefing, buy price, charts, details, don dyu, haha, menu, onboard, preferences, price, sell price";
       sendTextMessage(senderID, msg);
       // send image too
       break;
@@ -516,7 +516,7 @@ function receivedMessage(event) {
       break;
 
       case 'onboard': // deprecated because of "getting started" button
-      var msg = "At any time, you may type 'menu' to get a complete list of functions. \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH";
+      var msg = "At any time, you may type 'menu' to get a complete list of functions. We hope you enjoy our lil Botty.";
       sendAudioMessage(senderID);
       sendTextMessage(senderID, msg);
       break;
@@ -771,7 +771,7 @@ function receivedPostback(event) {
     var getRandomJoke = oneLinerJoke.getRandomJoke();
     return sendTextMessage(senderID, getRandomJoke.body);
   } else if (payload === "menu"){
-    var msg = "You have the following options: "
+    var msg = "You have the following options: audio, auth, best buy, best sell, bit buttons, bitcoin, briefing, buy price, charts, details, don dyu, haha, menu, onboard, preferences, price, sell price"
     return sendTextMessage(senderID, msg)
   } else if (payload === "quick"){
     client.getSpotPrice({'currency': 'USD'}, function(err, price) {
