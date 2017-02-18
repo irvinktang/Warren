@@ -13,8 +13,17 @@ var User = mongoose.model('User', {
   preferredTime: {
     type: String
   }
-})
+});
+
+var coinbaseUserSchema = new mongoose.Schema({
+  recipientId: String,
+  access_token: String,
+  refresh_token: String
+});
+
+var coinbaseUser = mongoose.model('coinbaseUser', coinbaseUserSchema)
 
 module.exports = {
-  User: User
+  User: User,
+  coinbaseUser: coinbaseUser
 }

@@ -49,8 +49,7 @@ mongoose.connection.on('error', function() {
 mongoose.connect(process.env.MONGODB_URI);
 
 var User = require('./models/user').User;
-
-var coinbaseUser = require('./model');
+var coinbaseUser = require('./models/user').coinbaseUser;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
