@@ -750,6 +750,9 @@ function receivedPostback(event) {
     };
 
 
+
+
+
   // else if(payload === 'gettingStarted') {
   //   // COPY CASE MENU
   //   var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
