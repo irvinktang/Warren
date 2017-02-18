@@ -388,6 +388,7 @@ function receivedMessage(event) {
           var msg = JSON.parse(body);
           var newMsg = "High: " + msg.high + "\nLow: " + msg.low + "\nOpen: " + msg.open + "\nLast: " + msg.last + "\nBid: " + msg.bid + "\nAsk: " + msg.ask + "\nVolume: " + msg.volume + "\nSource: Bitstamp"
           sendTextMessage(senderID, newMsg);
+        }
       })
       break;
 
