@@ -382,7 +382,7 @@ function receivedMessage(event) {
       sendAudioMessage(senderID);
       break;
 
-      case 'details'
+      case 'details':
       request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           var msg = JSON.parse(body);
