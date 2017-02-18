@@ -382,6 +382,15 @@ function receivedMessage(event) {
       sendAudioMessage(senderID);
       break;
 
+      case 'details'
+      request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var msg = JSON.parse(body);
+          var newMsg = "High: " + msg.high + "\nLow: " + msg.low + "\nOpen: " + msg.open + "\nLast: " + msg.last + "\nBid: " + msg.bid + "\nAsk: " + msg.ask + "\nVolume: " + msg.volume + "\nSource: Bitstamp"
+          sendTextMessage(senderID, newMsg);
+      })
+      break;
+
       case 'add menu':
       addPersistentMenu();
       break;
@@ -406,7 +415,7 @@ function receivedMessage(event) {
       break;
 
       case 'onboard': // deprecated because of "getting started" button
-      var msg = "At any time, you may type 'menu' to get a complete list of functions. Briefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH";
+      var msg = "At any time, you may type 'menu' to get a complete list of functions. \nBriefing: a real-time summary of data, courtesy of Coinbase. \nButtons: click to view BLAH BLAH";
       sendAudioMessage(senderID);
       sendTextMessage(senderID, msg);
       break;
