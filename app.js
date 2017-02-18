@@ -358,10 +358,6 @@ function receivedMessage(event) {
         preferredTime: ''
       }).save();
       myUser = user;
-    } else {
-      console.log('FOUND A USER; inside function');
-      myUser = foundUser;
-      console.log(myUser);
     }
   })
   // console.log('outside!')
