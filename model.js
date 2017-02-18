@@ -7,12 +7,12 @@ var connect = process.env.MONGODB_URI || require('../config.js').MONGODB_URI;
 // your connect string is not defined or incorrect.
 mongoose.connect(connect);
 
-var UserSchema = new mongoose.Schema({
+var coinbaseUserSchema = new mongoose.Schema({
   recipientId: String,
   access_token: String,
   refresh_token: String
 })
 
-var coinbaseUser = mongoose.model('coinbaseUser', UserSchema)
+var coinbaseUser = mongoose.model('coinbaseUser', coinbaseUserSchema)
 
 module.exports = coinbaseUser;
