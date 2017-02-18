@@ -19,7 +19,6 @@ request = require('request'),
 oneLinerJoke = require('one-liner-joke'),
 changeCase = require('change-case'),
 mongoose = require('mongoose'),
-
 words = ['onboard'],
 autocorrect = require('autocorrect')({words: words})
 
@@ -351,20 +350,20 @@ function receivedMessage(event) {
   // FIX THIS
   // var myUser = {};
   // // initial save of user information if he doesnt exist already
-  // User.findOne({userId: senderID}, function(err, foundUser) {
-  //   if(!foundUser) {
-  //     var user = new User({
-  //       userId: senderID,
-  //       preferredExchange: [],
-  //       preferredTime: ''
-  //     }).save();
-  //     myUser = user;
-  //   } else {
-  //     console.log('FOUND A USER; inside function');
-  //     myUser = foundUser;
-  //     console.log(myUser);
-  //   }
-  // })
+  User.findOne({userId: senderID}, function(err, foundUser) {
+    if(!foundUser) {
+      var user = new User({
+        userId: senderID,
+        preferredExchange: [],
+        preferredTime: ''
+      }).save();
+      myUser = user;
+    } else {
+      console.log('FOUND A USER; inside function');
+      myUser = foundUser;
+      console.log(myUser);
+    }
+  })
   // console.log('outside!')
   // console.log(myUser);
   // var myCurrency = myUser.preferredExchange[0];
