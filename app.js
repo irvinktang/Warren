@@ -730,7 +730,7 @@ function receivedPostback(event) {
 
   else if(payload === 'gettingStarted'){
     var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
-    return sendTextMessage(senderID, msg);
+    sendTextMessage(senderID, msg);
       setInterval(function(){
         client.getSpotPrice({'currency': currency_code}, function(err, price) {
           // console.log('Current bitcoin price in ' + currency_code + ': ' +  price.data.amount);
