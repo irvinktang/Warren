@@ -5,7 +5,7 @@ var connect = process.env.MONGODB_URI || require('../config.js').MONGODB_URI;
 
 // If you're getting an error here, it's probably because
 // your connect string is not defined or incorrect.
-mongoose.connect(connect);
+// mongoose.connect(connect);
 
 var coinbaseUserSchema = new mongoose.Schema({
   recipientId: String,
