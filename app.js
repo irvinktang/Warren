@@ -320,6 +320,10 @@ function receivedMessage(event) {
         console.log(foundUser);
       })
       return sendTextMessage(senderID, 'Saved.');
+    } else if(quickReplyPayload === 'buy') {
+        return sendTextMessage(senderID, "Will be implemented soon :)")
+    } else if(quickReplyPayload === 'sell') {
+        return sendTextMessage(senderID, "Will be implemented soon :)")
     } else if(quickReplyPayload === 'coinbase') {
       var arr = [];
       arr.push('coinbase');
@@ -386,7 +390,7 @@ function receivedMessage(event) {
       request('https://www.bitstamp.net/api/v2/ticker/btcusd/', function(error, response, body) {
         if (!error && response.statusCode == 200) {
           var msg = JSON.parse(body);
-          var newMsg = "High: " + msg.high + "\nLow: " + msg.low + "\nOpen: " + msg.open + "\nLast: " + msg.last + "\nBid: " + msg.bid + "\nAsk: " + msg.ask + "\nVolume: " + msg.volume + "\nSource: Bitstamp"
+          var newMsg = "Live, detailed pricing information:" + "\nHigh: " + msg.high + "\nLow: " + msg.low + "\nOpen: " + msg.open + "\nLast: " + msg.last + "\nBid: " + msg.bid + "\nAsk: " + msg.ask + "\nVolume: " + msg.volume + "\nSource: Bitstamp"
           sendTextMessage(senderID, newMsg);
         }
       })
@@ -427,7 +431,7 @@ function receivedMessage(event) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
             var pick = (msg.bid > coinPrice.data.amount ? "Coinbase" : "Bitstamp")
-            var newMsg="We would recommend " + pick + ".\n\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice.data.amount;
+            var newMsg="We would recommend buying from" + pick + ".\n\nBitstamp: " + msg.bid + "\nCoinbase: " + coinPrice.data.amount;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -440,7 +444,7 @@ function receivedMessage(event) {
           if (!error && response.statusCode == 200) {
             var msg = JSON.parse(body);
             var pick = (msg.ask > coinPrice.data.amount ? "Bitstamp" : "Coinbase")
-            var newMsg="We would recommend " + pick + ".\n\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice.data.amount;
+            var newMsg="We would recommend selling on" + pick + ".\n\nBitstamp: " + msg.ask + "\nCoinbase: " + coinPrice.data.amount;
             sendTextMessage(senderID, newMsg);
           }
         })
@@ -676,30 +680,24 @@ function sendBitcoin(recipientId) {
       id: recipientId
     },
     message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Bitcoin Options",
-          buttons:[{
-            type: "postback",
-            title: "Buy Price",
-            payload: "Buy_Price"
-          }, {
-            type: "postback",
-            title: "Sell Price",
-            payload: "Sell_Price"
-          }, {
-            type: "postback",
-            title: "Spot Price",
-            payload: "Price"
-          }]
+      text: "What transaction would you like to make?",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Buy BTC",
+          "payload":"buy"
+        },
+        {
+          "content_type":"text",
+          "title":"Sell BTC",
+          "payload":"sell"
         }
-      }
+      ]
     }
   };
   callSendAPI(messageData);
 }
+
 function sendImageMessage(recipientId) {
   var messageData = {
     recipient: {
