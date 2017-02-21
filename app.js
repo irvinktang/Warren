@@ -636,11 +636,11 @@ function authorizeCoinbase(recipientId) {
         type: "template",
         payload: {
           template_type: "button",
-          text: "This is test text",
+          text: "Click to Configure Coinbase",
           buttons:[{
             type: "web_url",
-            url: "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=" + COINBASE_CLIENTID + "&redirect_uri=" + encodeURIComponent("https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id="+recipientId),
-            title: "Authorize coinbase"
+            url: "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=" + COINBASE_CLIENTID + "&redirect_uri=" + encodeURIComponent("https://fathomless-brushlands-25447.herokuapp.com/coinbaseCallback?id="+recipientId),
+            title: "Authorize"
           }]
         }
       }
