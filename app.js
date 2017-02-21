@@ -639,7 +639,7 @@ function authorizeCoinbase(recipientId) {
           text: "This is test text",
           buttons:[{
             type: "web_url",
-            url: "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=" + COINBASE_CLIENTI + "&redirect_uri=" + encodeURIComponent("https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id="+recipientId),
+            url: "https://www.coinbase.com/oauth/authorize?response_type=code&client_id=" + COINBASE_CLIENTID + "&redirect_uri=" + encodeURIComponent("https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id="+recipientId),
             title: "Authorize coinbase"
           }]
         }
