@@ -1,51 +1,42 @@
 /* this is another take!
 * Copyright 2016-present, Facebook, Inc.
 * All rights reserved.
-*
 * This source code is licensed under the license found in the
 * LICENSE file in the root directory of this source tree.
-*
-*/
-
 /* jshint node: true, devel: true */
 'use strict';
 const
-bodyParser = require('body-parser'),
-config = require('config'),
-crypto = require('crypto'),
-express = require('express'),
-https = require('https'),
-request = require('request'),
-oneLinerJoke = require('one-liner-joke'),
-changeCase = require('change-case'),
-mongoose = require('mongoose'),
-_ = require('underscore'),
-words = ['onboard'],
-autocorrect = require('autocorrect')({words: words})
-
+  bodyParser = require('body-parser'),
+  config = require('config'),
+  crypto = require('crypto'),
+  express = require('express'),
+  https = require('https'),
+  request = require('request'),
+  oneLinerJoke = require('one-liner-joke'),
+  changeCase = require('change-case'),
+  mongoose = require('mongoose'),
+  _ = require('underscore'),
+  words = ['onboard'],
+  autocorrect = require('autocorrect')({words: words})
 var Client = require('coinbase').Client;
 var client = new Client({
   'apiKey': 'API KEY',
   'apiSecret': 'API SECRET'
 });
-
 var marketData;
 var currencies;
 var currencyName;
 var currentPrice;
 var newPrice;
 var currency_code = 'USD';
-
 var dateFormat = require('dateformat');
 // var time = require('time');
 var weather = require('weather-js');
-
 var google_speech = require('google-speech');
-
-
 var Nuance = require('nuance');
 var nuance = new Nuance('appID', 'appKey');
 
+// mongodb configuration
 mongoose.connection.on('connected', function() {
   console.log('Success: connected to MongoDb!');
 });
@@ -63,12 +54,6 @@ app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
-
-/*
-* Be sure to setup your config values before running this code. You can
-* set them using environment variables or modifying the config file in /config.
-*
-*/
 
 // App Secret can be retrieved from the App Dashboard
 const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ?
@@ -91,11 +76,13 @@ const SERVER_URL = (process.env.SERVER_URL) ?
 (process.env.SERVER_URL) :
 config.get('serverURL');
 
+const COINBASE_SECRET = process.env.COINBASE_SECRET;
+const COINBASE_CLIENTID = process.env.COINBASE_CLIENTID;
+
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
   process.exit(1);
 }
-
 
 // COINBASE CRAPPPPPP
 app.get('/coinbaseCallback', function(req,res){
@@ -109,8 +96,8 @@ app.get('/coinbaseCallback', function(req,res){
         {
           grant_type:'authorization_code',
           code:req.query.code,
-          client_id:'454e9a873a168d46478042302664030a9eb8265d94c7c0483a8421655327cce2',
-          client_secret: 'c8bbea96050e7eb23f8577f36adacd2dc6e259e49704abbab54c3fbabbe9859a',
+          client_id: COINBASE_CLIENTID,
+          client_secret: COINBASE_SECRET,
           redirect_uri: 'https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id='+req.query.id
         },
         json: true
@@ -162,11 +149,6 @@ app.get('/coinbaseCallback', function(req,res){
     );
   }
 })
-
-
-
-
-
 
 /*
 * Use your own validation token. Check that the token used in the Webhook
@@ -342,13 +324,6 @@ function receivedAuthentication(event) {
 * This event is called when a message is sent to your page. The 'message'
 * object format can vary depending on the kind of message that was received.
 * Read more at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-received
-*
-* For this example, we're going to echo any text that we get. If we get some
-* special keywords ('button', 'generic', 'receipt'), then we'll send back
-* examples of those bubbles to illustrate the special message bubbles we've
-* created. If we receive a message with an attachment (image, video, audio),
-* then we'll simply confirm that we've received the attachment.
-*
 */
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -387,9 +362,6 @@ function receivedMessage(event) {
     console.log("Received echo for message %s and app %d with metadata %s",
     messageId, appId, metadata);
     return;
-
-
-
   } else if (quickReply) {
     var quickReplyPayload = quickReply.payload;
     console.log("Quick reply for message %s with payload %s",
@@ -641,7 +613,6 @@ function addPersistentMenu(){
         }
       ]
     }
-
   }, function(error, response, body) {
     console.log(response)
     if (error) {
@@ -651,7 +622,6 @@ function addPersistentMenu(){
     }
   })
 }
-
 
 // COINBASE function
 function authorizeCoinbase(recipientId) {
@@ -679,15 +649,10 @@ function authorizeCoinbase(recipientId) {
   callSendAPI(messageData);
 }
 
-
-
-
 /*
 * Delivery Confirmation Event
-*
 * This event is sent to confirm the delivery of a message. Read more about
 * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
-*
 */
 function receivedDeliveryConfirmation(event) {
   var senderID = event.sender.id;
@@ -710,10 +675,8 @@ function receivedDeliveryConfirmation(event) {
 
 /*
 * Postback Event
-*
 * This event is called when a postback is tapped on a Structured Message.
 * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
-*
 */
 function receivedPostback(event) {
   var senderID = event.sender.id;
@@ -748,16 +711,10 @@ function receivedPostback(event) {
           })
       },10000);
     }
-
-
-
-
-
   // else if(payload === 'gettingStarted') {
   //   // COPY CASE MENU
   //   var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
   //   return sendTextMessage(senderID, msg);
-
 
    else if (payload === "Sell_Price"){
     client.getSellPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
@@ -1340,12 +1297,10 @@ function callSendAPI(messageData) {
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
-
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
-
       if (messageId) {
         console.log("Successfully sent message with id %s to recipient %s",
         messageId, recipientId);
@@ -1358,7 +1313,6 @@ function callSendAPI(messageData) {
     }
   });
 }
-
 
 function setGreetingText() {
   var greetingData = {
@@ -1413,13 +1367,9 @@ function setGreetingText() {
         currencies = JSON.parse(body);
       }
     })
-
     client.getSpotPrice({'currency': currency_code}, function(err, price) {
       currentPrice = price.data.amount;
     });
-
   });
-
-
 
   module.exports = app;
