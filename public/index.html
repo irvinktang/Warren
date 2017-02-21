@@ -13,10 +13,13 @@ LICENSE file in the root directory of this source tree.
     <title>Messenger Demo</title>
   </head>
   <body>
+
+<!-- CONFIGURE VARIABLES -->
+
     <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId: '1314284265300078',
+          appId: process.env.appId,
           xfbml: true,
           version: 'v2.6'
         });
@@ -38,9 +41,11 @@ LICENSE file in the root directory of this source tree.
     <div>
       <p>The "Send to Messenger" plugin will trigger an authentication callback to your webhook.</p>
 
+<!-- CONFIGURE VARIABLES -->
+
       <div class="fb-send-to-messenger"
-        messenger_app_id='1314284265300078'
-        page_id='1899303146968146'
+        messenger_app_id=process.env.appId
+        page_id=process.env.page_id
         data-ref="PASS_THROUGH_PARAM"
         color="blue"
         size="standard">
@@ -50,9 +55,11 @@ LICENSE file in the root directory of this source tree.
     <div>
       <p>The "Message Us" plugin takes the user directly to Messenger and into a thread with your Page.</p>
 
+<!-- CONFIGURE VARIABLES -->
+
       <div class="fb-messengermessageus"
-        messenger_app_id='1314284265300078'
-        page_id='1899303146968146'
+        messenger_app_id=process.env.appId
+        page_id=process.env.page_id
         color="blue"
         size="standard">
       </div>
