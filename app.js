@@ -98,7 +98,7 @@ app.get('/coinbaseCallback', function(req,res){
           code:req.query.code,
           client_id: COINBASE_CLIENTID,
           client_secret: COINBASE_SECRET,
-          redirect_uri: 'https://facebookbotbitcoin.herokuapp.com/coinbaseCallback?id='+req.query.id
+          redirect_uri: 'https://fathomless-brushlands-25447.herokuapp.com/coinbaseCallback?id='+req.query.id
         },
         json: true
       },
