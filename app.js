@@ -520,7 +520,7 @@ function receivedMessage(event) {
 
       case 'buy price':
       client.getBuyPrice({'currencyPair': 'BTC-USD'},function(err, price) {
-        sendTextMessage(senderID, 'Current bitcoin buyingprice in ' + 'usd' + ': ' +  price.data.amount)
+        sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
       });
       break;
 
@@ -532,7 +532,7 @@ function receivedMessage(event) {
 
       case 'sell price':
       client.getSellPrice({'currencyPair': 'BTC-USD'},function(err, price) {
-        sendTextMessage(senderID, 'Current bitcoin sellingprice in ' + 'usd' + ': ' +  price.data.amount)
+        sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
       });
       break;
 
