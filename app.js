@@ -537,7 +537,8 @@ function receivedMessage(event) {
       break;
 
       case 'bitcoin':
-      sendBitcoin(senderID);
+      // sendBitcoin(senderID);
+      sendBitcoinMessage(senderID);
       break;
 
       case 'bit buttons':
@@ -975,6 +976,34 @@ function sendButtonMessage(recipientId) {
       }
     }
   };
+  callSendAPI(messageData);
+}
+
+function sendBitcoinMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Bitcoin Transactions (via Coinbase)",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.coinbase.com/buy",
+            title: "Buy BTC"
+          }, {
+            type: "web_url",
+            url: "https://www.coinbase.com/sell",
+            title: "Sell BTC"
+          }]
+        }
+      }
+    }
+  };
+
   callSendAPI(messageData);
 }
 
