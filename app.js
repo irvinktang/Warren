@@ -441,7 +441,7 @@ function receivedMessage(event) {
       break;
 
       case 'menu':
-      var msg = "You have the following options: \n\nAuth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on GDAX. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy Price: quick buy-price check. \nSell Price: quick sell-price check."
+      var msg = "You have the following options: \n\nAuth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on Coinbase. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy Price: quick buy-price check. \nSell Price: quick sell-price check."
       return sendTextMessage(senderID, msg)
       break;
 
@@ -687,7 +687,7 @@ function receivedPostback(event) {
   var payload = event.postback.payload;
   if (payload === "Buy_Price"){
     client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount + "\nSource: GDAX")
+      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount + "\nSource: Coinbase")
     });
   }
 
@@ -728,7 +728,7 @@ function receivedPostback(event) {
     var getRandomJoke = oneLinerJoke.getRandomJoke();
     return sendTextMessage(senderID, getRandomJoke.body);
   } else if (payload === "menu"){
-    var msg = "You have the following options: \n\nAuth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on GDAX. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy Price: quick buy-price check. \nSell Price: quick sell-price check."
+    var msg = "You have the following options: \n\nAuth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on Coinbase. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy Price: quick buy-price check. \nSell Price: quick sell-price check."
     return sendTextMessage(senderID, msg)
   } else if (payload === "quick"){
     client.getSpotPrice({'currency': 'USD'}, function(err, price) {
@@ -740,7 +740,7 @@ function receivedPostback(event) {
           client.getTime(function(err, time) {
             var time = time.data.iso;
             var msg = 'Real-time pricing information:' + '\n\n' +
-            'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n\nSource: GDAX';
+            'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n\nSource: Coinbase';
             return sendTextMessage(senderID, msg);
           })
         })
