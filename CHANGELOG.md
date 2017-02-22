@@ -18,4 +18,5 @@
 
 ## Future
 * Implement login button, as opposed to using 'auth' every time --> potential OAuth popup window instead of redirection
-* Fix price alerts so that currency changes don't affect it 
+* Fix price alerts so that currency changes don't trigger huge [invalid] price changes
+* Use GDAX instead of Coinbase
