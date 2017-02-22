@@ -441,7 +441,7 @@ function receivedMessage(event) {
       break;
 
       case 'menu':
-      var msg = "You have the following options: Auth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on GDAX. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy price: quick buy-price check. \nSell price: quick sell-price check"
+      var msg = "You have the following options: \n\nAuth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on GDAX. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy price: quick buy-price check. \nSell price: quick sell-price check"
       return sendTextMessage(senderID, msg)
       break;
 
@@ -727,7 +727,7 @@ function receivedPostback(event) {
     var getRandomJoke = oneLinerJoke.getRandomJoke();
     return sendTextMessage(senderID, getRandomJoke.body);
   } else if (payload === "menu"){
-    var msg = "You have the following options: Auth: authorize your Coinbase wallet., \nBest Buy: view the best buying price, \nBest Sell: view the best selling price, \nBitcoin: buy or sell BTC, \nBriefing: view all relevant current information, \nBuy Price: current buy price on GDAX, \nCharts: view charts via Bitstamp or Coinbase, \nDetails: detailed, live pricing information, \nHaha: wanna hear a joke?, \nMenu: view all commands, \nPreferences: change information or notification preferences, \nBuy price: quick buy-price check, \nSell price: quick sell-price check"
+    var msg = "You have the following options: \n\nAuth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on GDAX. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy price: quick buy-price check. \nSell price: quick sell-price check"
     return sendTextMessage(senderID, msg)
   } else if (payload === "quick"){
     client.getSpotPrice({'currency': 'USD'}, function(err, price) {
