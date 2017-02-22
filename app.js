@@ -804,14 +804,14 @@ function sendBitcoin(recipientId) {
       text: "Select your transaction below (via Coinbase)",
       quick_replies: [
         {
-          "content_type":"web_url",
+          "content_type":"text",
           "title":"Buy BTC",
-          "url":"https://www.coinbase.com/buy"
+          "payload":"buy"
         },
         {
-          "content_type":"web_url",
+          "content_type":"text",
           "title":"Sell BTC",
-          "url":"https://www.coinbase.com/sell"
+          "payload":"sell"
         }
       ]
     }
