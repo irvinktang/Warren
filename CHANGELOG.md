@@ -12,3 +12,10 @@
 
 * Removed easter-egg functions (audio, don)
 * Edited/cleaned up text (no longer 'our lil botty')
+
+## February 22, 2017
+* Replaced case 'bitcoin' quick reply response with regular button response (quick reply does not allow for external links)
+
+## Future
+* Implement login button, as opposed to using 'auth' every time --> potential OAuth popup window instead of redirection
+* Fix price alerts so that currency changes don't affect it 
