@@ -441,9 +441,8 @@ function receivedMessage(event) {
       break;
 
       case 'menu':
-      var msg = "These are all your options: audio, auth, best buy, best sell, bit buttons, bitcoin, briefing, buy price, charts, details, don dyu, haha, menu, onboard, preferences, price, sell price";
-      sendTextMessage(senderID, msg);
-      // send image too
+      var msg = "You have the following options: Auth: authorize your Coinbase wallet. \nBest Buy: view the best buying price. \nBest Sell: view the best selling price. \nBitcoin: buy or sell BTC. \nBriefing: view all relevant current information. \nBuy Price: current buy price on GDAX. \nCharts: view charts via Bitstamp or Coinbase. \nDetails: detailed. live pricing information. \nHaha: wanna hear a joke?. \nMenu: view all commands. \nPreferences: change information or notification preferences. \nBuy price: quick buy-price check. \nSell price: quick sell-price check"
+      return sendTextMessage(senderID, msg)
       break;
 
       case 'auth':
@@ -488,7 +487,7 @@ function receivedMessage(event) {
       break;
 
       case 'onboard': // deprecated because of "getting started" button
-      var msg = "At any time, you may type 'menu' to get a complete list of functions. We hope you enjoy our lil Botty.";
+      var msg = "At any time, you may type 'menu' to get a complete list of functions. We hope you enjoy using Botty.";
       sendAudioMessage(senderID);
       sendTextMessage(senderID, msg);
       break;
@@ -687,12 +686,12 @@ function receivedPostback(event) {
   var payload = event.postback.payload;
   if (payload === "Buy_Price"){
     client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount)
+      return sendTextMessage(senderID, 'Current bitcoin buying price in ' + 'USD' + ': ' +  price.data.amount + "\nSource: GDAX")
     });
   }
 
   else if(payload === 'gettingStarted'){
-    var msg = "Thanks for checking out Botty, your personal crypto-plug. We have a plethora of features in store for you. To learn more about how I can help you, type 'onboard'."
+    var msg = "Thanks for checking out Botty, your personal crypto-bot. To learn more about how I can help you, type 'onboard'."
     sendTextMessage(senderID, msg);
       setInterval(function(){
         client.getSpotPrice({'currency': currency_code}, function(err, price) {
@@ -721,14 +720,14 @@ function receivedPostback(event) {
       return sendTextMessage(senderID, 'Current bitcoin selling price in ' + 'USD' + ': ' +  price.data.amount)
     });
   } else if (payload === "Price"){
-    client.getSpotPrice({'currency': 'usd'}, function(err, price) {
-      return sendTextMessage(senderID, 'Current bitcoin price in ' + 'USD' + ': ' +  price.data.amount)
+    client.getSpotPrice({'currency': 'USD'}, function(err, price) {
+      return sendTextMessage(senderID, 'Current bitcoin price in USD:' +  price.data.amount)
     });
   } else if (payload === "joke"){
     var getRandomJoke = oneLinerJoke.getRandomJoke();
     return sendTextMessage(senderID, getRandomJoke.body);
   } else if (payload === "menu"){
-    var msg = "You have the following options: audio, auth, best buy, best sell, bit buttons, bitcoin, briefing, buy price, charts, details, don dyu, haha, menu, onboard, preferences, price, sell price"
+    var msg = "You have the following options: Auth: authorize your Coinbase wallet., \nBest Buy: view the best buying price, \nBest Sell: view the best selling price, \nBitcoin: buy or sell BTC, \nBriefing: view all relevant current information, \nBuy Price: current buy price on GDAX, \nCharts: view charts via Bitstamp or Coinbase, \nDetails: detailed, live pricing information, \nHaha: wanna hear a joke?, \nMenu: view all commands, \nPreferences: change information or notification preferences, \nBuy price: quick buy-price check, \nSell price: quick sell-price check"
     return sendTextMessage(senderID, msg)
   } else if (payload === "quick"){
     client.getSpotPrice({'currency': 'USD'}, function(err, price) {
@@ -740,7 +739,7 @@ function receivedPostback(event) {
           client.getTime(function(err, time) {
             var time = time.data.iso;
             var msg = 'Real-time pricing information:' + '\n\n' +
-            'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n\nSource: Coinbase';
+            'Sell: ' + sell + '\n' + 'Buy: ' + buy + '\n' + 'Spot: ' + spot + '\n\nSource: GDAX';
             return sendTextMessage(senderID, msg);
           })
         })

@@ -7,3 +7,8 @@
 ## May 11, 2016
 
 * Initial launch of the sample app including all features launched at F8
+
+## February 21, 2017
+
+* Removed easter-egg functions (audio, don)
+* Edited/cleaned up text (no longer 'our lil botty')
