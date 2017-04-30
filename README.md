@@ -1,4 +1,4 @@
-# Botty: A Facebook Messenger bot built in Node.js
+# Warren: A Facebook Messenger bot built in Node.js
 
 This project came to fruition during a hackaton. Our team featured four members: Andrew Min, Don Kim, Irvin Tang, and Smit Patel.
 
